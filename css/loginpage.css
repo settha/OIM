@@ -1,0 +1,77 @@
+body {
+	font-family: 'Itim', cursive;
+	font-size: 18px;
+}
+
+/* Center of Display*/
+/*html, body, .container-table {
+    height: 100%;
+}
+.container-table {
+    display: table;
+}
+.vertical-center-row {
+    display: table-cell;
+    vertical-align: middle;
+}*/
+
+.bgcolor {
+	background-color: #7FFFD4;
+}
+
+.row {
+	padding-top: 20px;
+}
+
+.form {
+	background-color: #F0F8FF;
+}
+
+.logo-block {
+	padding-top: 10px;
+	text-align: center;
+}
+
+.logo-block img{
+	max-width: 50px;
+	max-height: 50px;
+}
+
+.logo-block .sitename {
+  margin-left: 5px;
+  font-weight: 300;
+  font-size: 28px;
+  vertical-align: middle;
+}
+
+.form-login {
+
+}
+
+.form-group {
+	margin: 0 50px 0 50px;
+	padding-top: 15px;
+}
+
+.form-group .form-input {
+	margin-top: -8px;
+	padding: 10px 10px 10px 10px;
+	border-radius: 10px;
+	border: 1px solid #DEDEDE;
+}
+
+.form-btn-login {
+	text-align: center;
+	padding-top: 30px;
+}
+
+.btn-login {
+	color: #FFFAF0;
+  	background-color: #1E90FF;
+  	border-color: #ccc;
+  	padding: 10px 10px 10px 10px;
+}
+
+.form-end {
+	margin-bottom: 20px;
+}
