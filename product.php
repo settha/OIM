@@ -25,7 +25,7 @@
     <!-- Font CSS -->
     <!-- https://fonts.google.com/specimen/Itim -->
     <link href="css/itim-font.css" rel="stylesheet">
-    <!-- <link href="https://fonts.googleapis.com/css?family=Itim" rel="stylesheet"> -->
+    <link href="https://fonts.googleapis.com/css?family=Itim" rel="stylesheet">
 
     <!-- My CSS -->
     <link href="css/nav.css" rel="stylesheet">
@@ -70,9 +70,9 @@
                     </div>
                     <div class="col-xs-4 col-sm-2 col-md-2 selectShow">
                         <select name='LengthChange' id='LengthChange' class="form-control selectShowText">
-                            <option value='5'>5 รายการ</option>
-                            <option value='10'>10 รายการ</option>
-                            <option value='20'>20 รายการ</option>
+                            <option value='1'>1 รายการ</option>
+                            <option value='2'>2 รายการ</option>
+                            <option value='3'>3 รายการ</option>
                             <option value='-1'>ทั้งหมด</option>
                             <option value='-2'>กำหนดเอง</option>
                         </select>
@@ -96,16 +96,16 @@
                         <table id="mytable" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="">
+                                    <th class="col-xs-1">
                                         <input type="checkbox" id="select_all" name="select_all" value="1" />
                                     </th>
 
-                                    <th class="col-sm-2 col-md-2" style="min-width: 50px;">รหัสสินค้า</th>
-                                    <th class="col-sm-3 col-md-3" style="min-width: 100px;">ชื่อสินค้า</th>
-                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 40px ;">ราคาซื้อ (฿)</th>
-                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 40px ;">ราคาขาย (฿)</th>
-                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 50px ;">คงเหลือ</th>
-                                    <th class="col-sm-1 col-md-1 text-center"></th>
+                                    <th class="col-xs-2 col-md-2"><a href="#">รหัสสินค้า</a></th>
+                                    <th class="col-xs-3 col-md-3"><a href="#">ชื่อสินค้า</a></th>
+                                    <th class="col-xs-2 col-md-2" style="text-align: right;"><a href="#">ราคาซื้อ</a></th>
+                                    <th class="col-xs-2 col-md-2" style="text-align: right;"><a href="#">ราคาขาย</a></th>
+                                    <th class="col-xs-2 col-md-2" style="text-align: right;"><a href="#">คงเหลือ</a></th>
+                                    <th class="col-xs-2 col-md-1 text-center"></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -121,8 +121,7 @@
                 </div>
 
                 <button type="button" id="btnClick" class="btn pull-right btn-add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>กด</button>
-                <input type="text" name="" id="click1">
-               
+                <input type="text" name="" id="click1">                
             </div>
         </div>
     </div>
@@ -146,7 +145,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="inputProduct_Id">รหัสสินค้า</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="inputProduct_Id" placeholder="รหัสสินค้า" tabindex="1" />
+                                <input type="text" class="form-control" id="inputProduct_Id" placeholder="รหัสสินค้า" tabindex="1" autofocus/>
                             </div>
                         </div>
 
@@ -197,7 +196,7 @@
                 </div>
     
                 <!-- Modal Body -->
-                <form class="form-horizontal" role="form" id="formAddAlert" method='POST' action="addProduct.php">
+                <form class="form-horizontal" role="form" id="formDeleteAlert" method='POST' action="addProduct.php">
                     <div class="modal-body">
                         <div class="txtHeadModal">
                             <label class="control-label">ยืนยันการบันทึกรายการ</label>
@@ -206,30 +205,28 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">รหัสสินค้า</label>
                             <div class="col-sm-7">
-                                <input type="text" id="txtProduct_Id" name="txtProduct_Id" class="form-control" readonly/>
+                                <input type="text" id="txtProduct_Id" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ชื่อสินค้า</label>
                             <div class="col-sm-7">
-                                <input type="text" id="txtProduct_Name" name="txtProduct_Name" class="form-control" readonly/>
+                                <input type="text" id="txtProduct_Name" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ราคาซื้อ</label>
                             <div class="col-sm-7">
-                                <input type="hidden" id="txtProduct_Cost" name="txtProduct_Cost" class="form-control" readonly/>
-                                <input type="text" id="txtProduct_CostBaht" name="txtProduct_CostBaht" class="form-control" readonly/>
+                                <input type="text" id="txtProduct_Cost" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ราคาขาย</label>
                             <div class="col-sm-7">
-                                <input type="hidden" id="txtProduct_Price" name="txtProduct_Price" class="form-control" readonly/>
-                                <input type="text" id="txtProduct_PriceBaht" name="txtProduct_PriceBaht" class="form-control" readonly/>
+                                <input type="text" id="txtProduct_Price" class="form-control" readonly/>
                             </div>
                         </div>
                     
@@ -238,12 +235,20 @@
                 <!-- Modal Footer -->
                     <div class="modal-footer">
                         <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="" data-toggle="modal" data-target="#modalAddProduct">แก้ไขรายการ</button>
-                        <button type="submit" id="btnSubmitAddProduct" name="btnSubmitAddProduct" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
+                        <button type="button" id="btnSubmitAddProduct" class="btn btn-primary" tabindex="" onclick="addProduct()">ยืนยัน</button>
                     </div>
                 </form>
             </div>
         </div>
     </div>
+
+    <?php
+        if(isset($_POST['btnSubmitDeleteProduct'])) { 
+            $name = $_POST['txtDeleteProduct_Id'];
+            echo "User Has submitted the form and entered this name : <b> $name </b>";
+            echo "<br>You can use the following form again to enter a new name."; 
+        }
+    ?>
 
     <!-- Modal EditProduct-->
     <div class="modal fade" id="modalEditProduct" tabindex="-1" role="dialog" aria-labelledby="modalLabelEditProduct" aria-hidden="true">
@@ -264,7 +269,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="editProduct_Id">รหัสสินค้า</label>
                             <div class="col-sm-8">
-                                <input type="text" class="form-control" id="editProduct_Id" placeholder="รหัสสินค้า" tabindex="1" readonly />
+                                <input type="text" class="form-control" id="editProduct_Id" placeholder="รหัสสินค้า" tabindex="1" autofocus/>
                             </div>
                         </div>
 
@@ -315,8 +320,8 @@
                 </div>
             
                 <!-- Modal Body -->
-                <form class="form-horizontal" role="form" id="formEditAlert" method='POST' action="editProduct.php">
-                    <div class="modal-body">
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
                         <div class="txtEditHeadModal">
                             <label class="control-label">ยืนยันการบันทึกรายการ</label>
                         </div>
@@ -324,41 +329,39 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">รหัสสินค้า</label>
                             <div class="col-sm-7">
-                                <input type="text" id="txtEditProduct_Id" name="txtEditProduct_Id" class="form-control" readonly/>
+                                <input type="text" id="txtEditProduct_Id" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ชื่อสินค้า</label>
                             <div class="col-sm-7">
-                                <input type="text" id="txtEditProduct_Name" name="txtEditProduct_Name" class="form-control" readonly/>
+                                <input type="text" id="txtEditProduct_Name" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ราคาซื้อ</label>
                             <div class="col-sm-7">
-                                <input type="hidden" id="txtEditProduct_Cost" name="txtEditProduct_Cost" class="form-control" readonly/>
-                                <input type="text" id="txtEditProduct_CostBaht" name="txtEditProduct_CostBaht" class="form-control" readonly/>
+                                <input type="text" id="txtEditProduct_Cost" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ราคาขาย</label>
                             <div class="col-sm-7">
-                                <input type="hidden" id="txtEditProduct_Price" name="txtEditProduct_Price" class="form-control" readonly/>
-                                <input type="text" id="txtEditProduct_PriceBaht" name="txtEditProduct_PriceBaht" class="form-control" readonly/>
+                                <input type="text" id="txtEditProduct_Price" class="form-control" readonly/>
                             </div>
                         </div>
 
-                    </div>
+                    </form>
+                </div>
                 
                 <!-- Modal Footer -->
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="" data-toggle="modal" data-target="#modalEditProduct">แก้ไขรายการ</button>
-                        <button type="button" id="btnSubmitEditProduct" name="btnSubmitEditProduct" class="btn btn-primary" data-dismiss="modal" tabindex="">ยืนยัน</button>
-                    </div>
-                </form>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="" data-toggle="modal" data-target="#modalEditProduct">แก้ไขรายการ</button>
+                    <button type="button" id="btnSubmitEditProduct" class="btn btn-primary" tabindex="">ยืนยัน</button>
+                </div>
             </div>
         </div>
     </div>
@@ -378,7 +381,7 @@
                 </div>
                 
                 <!-- Modal Body -->
-                <form class="form-horizontal" role="form" id="formDeleteAlert" method='POST' action="deleteProduct.php">
+                <form class="form-horizontal" role="form" id="formDeleteAlert" method='POST' action="<?php echo $_SERVER['PHP_SELF']; ?>">    
                     <div class="modal-body">
                         <div class="txtDeleteHeadModal">
                             <label class="control-label">ยืนยันการลบรายการ</label>
@@ -394,40 +397,32 @@
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ชื่อสินค้า</label>
                             <div class="col-sm-7">
-                                <input type="text" id="txtDeleteProduct_Name" name="txtDeleteProduct_Name" class="form-control" readonly/>
+                                <input type="text" id="txtDeleteProduct_Name" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ราคาซื้อ</label>
                             <div class="col-sm-7">
-                                <input type="text" id="txtDeleteProduct_Cost" name="txtDeleteProduct_Cost" class="form-control" readonly/>
+                                <input type="text" id="txtDeleteProduct_Cost" class="form-control" readonly/>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-5 control-label">ราคาขาย</label>
                             <div class="col-sm-7">
-                                <input type="text" id="txtDeleteProduct_Price" name="txtDeleteProduct_Price" class="form-control" readonly/>
+                                <input type="text" id="txtDeleteProduct_Price" class="form-control" readonly/>
                             </div>
                         </div>
                     </div>
                 
                 <!-- Modal Footer -->
                     <div class="modal-footer">
-                        <button type="submit" id="btnSubmitDeleteProduct" name="btnSubmitDeleteProduct" class="btn btn-primary" data-dismiss="modal" tabindex="">ยืนยัน</button>
+                        <button type="submit" id="btnSubmitDeleteProduct" name="btnSubmitDeleteProduct" class="btn btn-primary" tabindex="">ยืนยัน</button>
                     </div>
                 </form>
             </div>
         </div>
-    </div>
-
-    <!-- Hidden Form View Product -->
-    <div id="divDetail">
-        <form class="form-horizontal" role="form" id="formdivDetail" method='POST' action="test.php">
-            <input type="text" id="txtDivProduct_Id" name="txtDivProduct_Id" class="form-control" readonly/>
-            <button type="submit" id="btnDivDetail" name="btnDivDetail" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
-        </form>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -446,10 +441,6 @@
     Copyright 2013-2015 István Ujj-Mészáros
     http://www.virtuosoft.eu/code/bootstrap-touchspin/ -->
     <script src="js/jquery.bootstrap-touchspin.js"></script>
-
-    <!-- Bootstrap Notify V. 3.1.3
-    http://bootstrap-notify.remabledesigns.com/ -->
-    <script src="js/bootstrap-notify.js"></script>
 
     <!-- Include HTML W3-->
     <script src="js/w3data.js"></script>
@@ -486,15 +477,14 @@
                         {"data": null},
                         {"data": "Product_Id"},
                         {"data": "Product_Name"},
-                        {"data": "Product_Cost", render: $.fn.dataTable.render.number( ',', '.', 2)},
-                        {"data": "Product_Price", render: $.fn.dataTable.render.number( ',', '.', 2)},
+                        {"data": "Product_Cost"},
+                        {"data": "Product_Price"},
                         {"data": "Product_Total"},
                         {"data": null,
-                        defaultContent: '<div class="dropdown">  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span class="caret"></span></button>  <ul class="dropdown-menu dropdown-menu-right">  <li id="liDetailProduct" onclick="detailProduct()"><a href="#">ดูรายละเอียดเพิ่มเติม</a></li>  <li role="separator" class="divider"></li>  <li><a href="#">นำสินค้าเข้า</a></li>  <li><a href="#">จ่ายสินค้าออก</a></li>  <li role="separator" class="divider"></li>  <li onclick="editProduct()"><a href="#">แก้ไขรายการ</a></li>  <li role="separator" class="divider"></li>  <li onclick="deleteProduct()"><a href="#">ลบรายการ</a></li>  </ul>  </div>'}
+                        defaultContent: '<div class="dropdown">  <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> <span class="caret"></span></button>  <ul class="dropdown-menu dropdown-menu-right">  <li onclick="detailProduct()"><a href="#">ดูรายละเอียดเพิ่มเติม</a></li>  <li role="separator" class="divider"></li>  <li><a href="#">นำสินค้าเข้า</a></li>  <li><a href="#">จ่ายสินค้าออก</a></li>  <li role="separator" class="divider"></li>  <li onclick="editProduct()"><a href="#">แก้ไขรายการ</a></li>  <li role="separator" class="divider"></li>  <li onclick="deleteProduct()"><a href="#">ลบรายการ</a></li>  </ul>  </div>'}
                     ],
                     "columnDefs": [
                         {"orderable": false, "targets": 0 },
-                        {"className": "colPID", "targets": 1},
                         {"className": "text-right", "targets": 3}, //3
                         {"className": "text-right", "targets": 4}, //4
                         {"className": "text-right", "targets": 5}, //5
@@ -534,13 +524,13 @@
                         },
                         select: {
                           rows: {
-                            _: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ทำการเลือก %d รายการ",
-                            0: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ไม่มีรายการเลือก",
-                            1: "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;ทำการเลือก 1 รายการ"
+                            _: "เลือก %d รายการ",
+                            0: "",
+                            1: "เลือก 1 รายการ"
                           }
                         }
                     },
-                    "lengthMenu": [[5, 10, 20, -1], [5, 10, 20, "All"]],
+                    "lengthMenu": [[1, 2, 3, -1], [1, 2, 3, "All"]],
                     fixedHeader: {
                         header: true,
                         footer: true,
@@ -556,10 +546,10 @@
                             $(row).find('input[type="checkbox"]').prop('checked', true);
                             $(row).addClass('selected');
                         }
-                    },
-                    select: {
-                        style: 'multi'
                     }
+                    // select: {
+                    //     style: 'multi'
+                    // }
                 });
 
                 $('#myInput').on( 'keyup', function () {
@@ -699,29 +689,9 @@
                     }
                 } 
             
-            //Reload Datatables
-            function tableReload() {
+            function myFunction() {
                 table.ajax.reload( null, false );
             }
-        </script>
-
-        <!-- Button Dropdown Responsive Table-->
-        <!-- REF: http://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll -->
-        <script type="text/javascript">
-            (function () {
-                $('.table-responsive').on('shown.bs.dropdown', function (e) {var $table = $(this),
-                    $menu = $(e.target).find('.dropdown-menu'),
-                    tableOffsetHeight = $table.offset().top + $table.height(),
-                    menuOffsetHeight = $menu.offset().top + $menu.outerHeight(true);
-          
-                    if (menuOffsetHeight > tableOffsetHeight)
-                        $table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight);
-                });
-
-                $('.table-responsive').on('hide.bs.dropdown', function () {
-                    $(this).css("padding-bottom", 0);
-                })
-            })();
         </script>
 
         <!-- Button AddProduct -->
@@ -769,41 +739,30 @@
             $('#modalAddAlert').on('shown.bs.modal', function() {
                 document.getElementById("txtProduct_Id").value = $('#inputProduct_Id').val();
                 document.getElementById("txtProduct_Name").value = $('#inputProduct_Name').val();
-                document.getElementById("txtProduct_Cost").value = $('#inputProduct_Cost').val();
-                document.getElementById("txtProduct_CostBaht").value = $('#inputProduct_Cost').val() + " บาท";
-                document.getElementById("txtProduct_Price").value = $('#inputProduct_Price').val();
-                document.getElementById("txtProduct_PriceBaht").value = $('#inputProduct_Price').val() + " บาท";
+                document.getElementById("txtProduct_Cost").value = $('#inputProduct_Cost').val() + " บาท";
+                document.getElementById("txtProduct_Price").value = $('#inputProduct_Price').val() + " บาท";
             })
         </script>
 
-        <!-- Add Product -->
+        <!-- Button Dropdown Responsive Table-->
+        <!-- REF: http://stackoverflow.com/questions/26018756/bootstrap-button-drop-down-inside-responsive-table-not-visible-because-of-scroll -->
         <script type="text/javascript">
-            $("#btnSubmitAddProduct").click( function() {
-                var data = $("#formAddAlert :input").serializeArray();
+            (function () {
+                $('.table-responsive').on('shown.bs.dropdown', function (e) {var $table = $(this),
+                    $menu = $(e.target).find('.dropdown-menu'),
+                    tableOffsetHeight = $table.offset().top + $table.height(),
+                    menuOffsetHeight = $menu.offset().top + $menu.outerHeight(true);
+          
+                    if (menuOffsetHeight > tableOffsetHeight)
+                        $table.css("padding-bottom", menuOffsetHeight - tableOffsetHeight);
+                });
 
-                $.post( $("#formAddAlert").attr("action"),
-                    data, 
-                    function(){ 
-                        $.notify({
-                            title: '<b>ดำเนินการเสร็จสิ้น</b>',
-                            message: '<br>เพิ่มรายการสินค้าเรียบร้อย'
-                        },{
-                            type: 'success',
-                            delay: 5000
-                        });
-                        tableReload();
-                    }  
-                );
-            });
-
-            $("#formAddAlert").submit( function() {
-                return false;
-            });
-            function addProduct() {
-                //window.location.href = "addProduct.html"
-            }
+                $('.table-responsive').on('hide.bs.dropdown', function () {
+                    $(this).css("padding-bottom", 0);
+                })
+            })();
         </script>
-        
+
         <!-- Click Button Option[Add Edit Delete etc.] -->    
         <script type="text/javascript">
             var pId, pName, pCost, pPrice, pTotal;
@@ -855,37 +814,10 @@
                 $('#modalEditAlert').on('shown.bs.modal', function() {
                     document.getElementById("txtEditProduct_Id").value = $('#editProduct_Id').val();
                     document.getElementById("txtEditProduct_Name").value = $('#editProduct_Name').val();
-                    document.getElementById("txtEditProduct_Cost").value = $('#editProduct_Cost').val();
-                    document.getElementById("txtEditProduct_CostBaht").value = $('#editProduct_Cost').val() + " บาท";
-                    document.getElementById("txtEditProduct_Price").value = $('#editProduct_Price').val();
-                    document.getElementById("txtEditProduct_PriceBaht").value = $('#editProduct_Price').val() + " บาท";
+                    document.getElementById("txtEditProduct_Cost").value = $('#editProduct_Cost').val() + " บาท";
+                    document.getElementById("txtEditProduct_Price").value = $('#editProduct_Price').val() + " บาท";
                 })
             }
-        </script>
-
-        <!-- Edit Product -->
-        <script type="text/javascript">
-            $("#btnSubmitEditProduct").click( function() {
-                var data = $("#formEditAlert :input").serializeArray();
-
-                $.post( $("#formEditAlert").attr("action"),
-                    data, 
-                    function(){ 
-                        $.notify({
-                            title: '<b>ดำเนินการเสร็จสิ้น</b>',
-                            message: '<br>แก้ไขรายการสินค้าเรียบร้อย'
-                        },{
-                            type: 'success',
-                            delay: 5000
-                        });
-                        tableReload();
-                    }  
-                );
-            });
-
-            $("#formEditAlert").submit( function() {
-                return false;
-            });
         </script>
 
         <!-- Click li DeleteProduct -->
@@ -897,73 +829,21 @@
                 document.getElementById("txtDeleteProduct_Cost").value = pCost + " บาท";
                 document.getElementById("txtDeleteProduct_Price").value = pPrice + " บาท";
             }
-        </script>
 
-        <!-- Delete Product -->
-        <script type="text/javascript">
-            $("#btnSubmitDeleteProduct").click( function() {
-                var data = $("#formDeleteAlert :input").serializeArray();
-
-                $.post( $("#formDeleteAlert").attr("action"),
-                    data, 
-                    function(){ 
-                        $.notify({
-                            title: '<b>ดำเนินการเสร็จสิ้น</b>',
-                            message: '<br>ลบรายการสินค้าเรียบร้อย'
-                        },{
-                            type: 'success',
-                            delay: 5000
-                        });
-                        tableReload();
-                    }  
-                );
-            });
-
-            $("#formDeleteAlert").submit( function() {
-                return false;
-            });
         </script>
 
         <!-- ??? -->
         <script type="text/javascript">
             function detailProduct() {
-                document.getElementById("txtDivProduct_Id").value = rows_selected;
-                
-                //$("#btnDivDetail").trigger('click');
                 //window.location.href = "eachProduct.html"
             }
         </script>
 
-        
-
-        <!-- Edit Product -->
+        <!-- ??? -->
         <script type="text/javascript">
-            $("#liDetailProduct").click( function() {
-                alert("Finish");
-            });
-
-            // $("#btnSubmitAddProduct").click( function() {
-            //     var data = $("#formAddAlert :input").serializeArray();
-
-            //     $.post( $("#formAddAlert").attr("action"),
-            //         data, 
-            //         function(){ alert("Finish");
-            //     });
-            // });
-
-            // $("#formAddAlert").submit( function() {
-            //     return false;
-            // });
-            // function addProduct() {
-            //     //window.location.href = "addProduct.html"
-            // }
-        </script>
-
-        <!-- Hidden Form -->
-        <script type="text/javascript">
-            $(document).ready(function() { 
-                document.getElementById('divDetail').style.visibility = 'hidden';
-            });
+            function addProduct() {
+                //window.location.href = "addProduct.html"
+            }
         </script>
 
 </body>
