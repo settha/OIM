@@ -22,13 +22,14 @@
 $table = 'Product';
  
 // Table's primary key
-$primaryKey = 'Product_Id';
+$primaryKey = 'pID';
  
 // Array of database columns which should be read and sent back to DataTables.
 // The `db` parameter represents the column name in the database, while the `dt`
 // parameter represents the DataTables column identifier. In this case simple
 // indexes
 $columns = array(
+    array( 'db' => 'pID', 'dt' => 'pID' ),
     array( 'db' => 'Product_Id', 'dt' => 'Product_Id' ),
     array( 'db' => 'Product_Name',  'dt' => 'Product_Name' ),
     array( 'db' => 'Product_Cost',   'dt' => 'Product_Cost' ),
