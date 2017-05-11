@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>สินค้า - ระบบจัดการสินค้าและคลังสินค้าแบบออนไลน์</title>
+    <title>นำสินค้าเข้า - ระบบจัดการสินค้าและคลังสินค้าแบบออนไลน์</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQuery UI -->
+    <link href="css/jquery-ui.css" rel="stylesheet">
 
     <!-- DataTables -->
     <link href="css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -28,7 +31,7 @@
 
     <!-- My CSS -->
     <link href="css/nav.css" rel="stylesheet">
-    <link href="css/product.css" rel="stylesheet">
+    <link href="css/import.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -40,12 +43,175 @@
   <body>
     <div w3-include-html="nav.html"></div> 
 
-    <h1>I</h1>
+    <div class="container">
+        <div class="row">
+            <div class="form">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 pull-left">
+                    <h1 class="text-head">นำสินค้าเข้า</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-import col-md-12">
+                    <!-- Left Form -->
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                <label>รายการ</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control import-input" id="importList" name="importList" placeholder="รหัสทำรายการ"  />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                <label>วันที่ทำรายการ</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control import-input" id="importDate" name="importDate" placeholder="วันที่ทำรายการ" readonly />
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Form -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>ชื่อคู่ค้า</label>
+                            </div>
+                            <div class="col-md-9">
+                                <input type="text" class="form-control" id="importSupplier" name="importSupplier" placeholder="ชื่อคู่ค้า"  />
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-2 col-md-2" style="min-width: 40px;">No.</th>
+                                    <th class="col-sm-2 col-md-2" style="min-width: 35px;">รหัสสินค้า</th>
+                                    <th class="col-sm-3 col-md-3" style="min-width: 75px;">ชื่อสินค้า</th>
+                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 35px ;">จำนวน</th>
+                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 35px ;">ราคาต่อหน่วย</th>
+                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 50px ;">รวม</th>
+                                    <th class="col-sm-1 col-md-1 text-center"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr id='addrow0'></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+                <div class="col-xs-12 col-sm-6 col-md-6 selectShowCount">
+                    <div class="dataInfo" id="infoContrainer"></div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="dataPagination pull-right" id="paginationControl"></div>
+                </div>               
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-group">
+                    <button type="button" class="btn pull-right btn-add" id="btnAddItem" data-toggle="modal" data-target="#modalImportProduct""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> เพิ่มรายการ</button>
+                </div>
+            </div>
+            
+        </div>
+        
+    </div>
+
+    <!-- Modal ImportProduct-->
+    <div class="modal fade" id="modalImportProduct" tabindex="-1" role="dialog" aria-labelledby="modalLabelImportProduct" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelImportProduct">เพิ่มรายการสินค้า</h4>
+                </div>
+                
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="importProduct_Id">รหัสสินค้า</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="importProduct_Id" name="importProduct_Id" placeholder="รหัสสินค้า" autocomplete="on"/>
+                                <div id="importProduct_IdList"></div> 
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="inputProductName" >ชื่อสินค้า</label>
+                            <div class="col-sm-9">
+                                <input type="text" class="form-control" id="inputProductName" placeholder="ชื่อสินค้า"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="inputProductName" >ประเภทสินค้า</label>
+                            <div class="col-sm-9">
+                                <select class="form-control form-select form-text -half" id="categoryID">
+                                    <option value="0">ไม่ระบุ</option>
+                                    <option value="1">ของเล่น</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="inputCost" >ราคาซื้อ</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="inputCost" placeholder="ราคาซื้อ"/>
+                            </div>
+                            <label class="col-sm-3 control-label" for="inputPrice" >ราคาขาย</label>
+                            <div class="col-sm-3">
+                                <input type="text" class="form-control" id="inputPrice" placeholder="ราคาขาย"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="inputQuantifyingNoun" >หน่วยสินค้า</label>
+                            <div class="col-sm-9">
+                                <!-- <input type="text" class="form-control" id="inputQuantifyingNoun" placeholder="ชิ้น, อัน, หลอด"/> -->
+                                <select class="form-control form-select form-text -half" id="categoryID">
+                                    <option value="0">ไม่ระบุ</option>
+                                    <option value="1">ตัว</option>
+                                    <option value="2">ชิ้น</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ปิดหน้าต่าง</button>
+                    <button type="button" class="btn btn-primary" id="add_row" data-dismiss="modal">บันทึก</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.12.4.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+
+    <!-- JQuery UI -->
+    <script src="js/jquery-ui.js"></script>
 
     <!-- Datatables -->
     <script src="js/jquery.dataTables.min.js"></script>
@@ -67,6 +233,78 @@
 
     <!-- My Script -->
     <script src="js/activeMenu.js"></script>
+
+        <!-- Product_Id List Show -->
+        <script>
+  $( function() {
+    function log( message ) {
+      $( "<div>" ).text( message ).prependTo( "#log" );
+      $( "#log" ).scrollTop( 0 );
+    }
+ 
+    $( "#importProduct_Id" ).autocomplete({
+      source: function( request, response ) {
+        $.ajax( {
+          url: "product_IdData.php",
+          dataType: "json",
+          data: {
+            term: request.term
+          },
+          success: function( data ) {
+            var results = $.ui.autocomplete.filter(data, request.term);
+            response(results.slice(0, 1));//for getting 5 results
+            //response( data );
+          }
+        } );
+        
+      },
+      minLength: 0,
+      select: function( event, ui ) {
+        log( ui.item ?
+          "Selected: " + ui.item.label :
+          "Nothing selected, input was " + this.value);
+      },
+      open: function() {
+        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+      },
+      close: function() {
+        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+      }
+    } ).bind('focus', function(){ $(this).autocomplete("search"); } );
+  } );
+  </script>
+        <!-- <script type="text/javascript">
+            $(document).ready(function() {
+                $('#importProduct_Id').autocomplete({
+                    source: "product_IdData.php",
+                    minLength: 0
+                });
+            });
+        </script> -->
+        <!-- <script>  
+            $(document).ready(function(){  
+                $('#importProduct_Id').keyup(function(){  
+                    var query = $(this).val();  
+                    if(query != '')  
+                    {  
+                        $.ajax({  
+                            url:"product_IdData.php",  
+                            method:"POST",  
+                            data:{query:query},  
+                            success:function(data) {  
+                                $('#importProduct_IdList').fadeIn();  
+                                $('#importProduct_IdList').html(data);  
+                            }  
+                        });  
+                    }  
+                });  
+            
+                $(document).on('click', 'li', function(){  
+                    $('#importProduct_Id').val($(this).text());  
+                    $('#importProduct_IdList').fadeOut();  
+                });  
+            });  
+        </script> -->
 
   </body>
 </html>

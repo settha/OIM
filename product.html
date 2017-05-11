@@ -85,6 +85,19 @@
                             <input type="" name="myLengthChange" id="myLengthChange" class="form-control selectShowText" >
                         </div>
                     </div>
+                    <div id="divMultipleCheckBox">
+                        <div class="col-xs-6 col-sm-1 col-md-1 labelShow pull-right">
+                            <div class="dropdown pull-right">
+                                <button class="btn btn-primary dropdown-toggle" type="button" data-toggle="dropdown"><span class="glyphicon glyphicon-cog" aria-hidden="true"></span> เพิ่มเติม<span class="caret"></span></button>
+                                <ul class="dropdown-menu dropdown-menu-right">
+                                    <li><a href="#">นำสินค้าเข้า</a></li>
+                                    <li><a href="#">จ่ายสินค้าออก</a></li>
+                                    <li role="separator" class="divider"></li>
+                                    <li onclick="deleteMultipleProduct()"><a href="#">ลบรายการ</a></li>  
+                                </ul>  
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -118,11 +131,7 @@
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="dataPagination pull-right" id="paginationControl"></div>
-                </div>
-
-                <button type="button" id="btnClick" class="btn pull-right btn-add"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span>กด</button>
-                <input type="text" name="" id="click1">
-               
+                </div>               
             </div>
         </div>
     </div>
@@ -425,6 +434,44 @@
         </div>
     </div>
 
+    <!-- Modal Multiple Delete Alert-->
+    <div class="modal fade" id="modalDeleteMultipleAlert" data-backdrop-limit="1" tabindex="-1" role="dialog" aria-labelledby="modalLabelDeleteMultipleAlert" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelDeleteMultipleAlert">ต้องการลบหรือไม่</h4>
+                </div>
+                
+                <!-- Modal Body -->
+                <form class="form-horizontal" role="form" id="formDeleteMultipleAlert" method='POST' action="deleteProduct.php">
+                    <div class="modal-body">
+                        <div class="txtDeleteMultipleHeadModal">
+                            <label class="control-label">ยืนยันการลบรายการสินค้าที่เลือก</label>
+                        </div>
+
+                        <div class="form-group">
+                            <!-- <label class="col-sm-5 control-label">รหัสสินค้า</label> -->
+                            <div class="col-sm-7">
+                                <input type="hidden" id="txtDeleteMultiplepID" name="txtDeleteMultiplepID" class="form-control" readonly/>
+                            </div>
+                        </div>
+
+                    </div>
+                
+                <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="submit" id="btnSubmitDeleteMultipleProduct" name="btnSubmitDeleteMultipleProduct" class="btn btn-primary" data-dismiss="modal" tabindex="">ยืนยัน</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
     <!-- Hidden Form View Product -->
     <div id="divDetail">
         <form class="form-horizontal" role="form" id="formdivDetail" method='POST' action="test.php">
@@ -602,13 +649,16 @@
                 // });
 
                 document.getElementById("divmyLengthChange").style.visibility = "hidden";
+                document.getElementById("divmyLengthChange").style.display = "none";
                 $('#LengthChange').change( function() {
                     if($(this).val() != -2){
                         table.page.len( $(this).val() ).draw();
                         document.getElementById("divmyLengthChange").style.visibility = "hidden";
+                        document.getElementById("divmyLengthChange").style.display = "none";
                     }else{
                         document.getElementById("divmyLengthChange").style.visibility = "visible";
                         document.getElementById("myLengthChange").focus();
+                        document.getElementById("divmyLengthChange").style.display = "block";
                     }
                 });
 
@@ -663,6 +713,7 @@
                         $('#mytable tbody input[type="checkbox"]:checked').trigger('click');
                         $(this).parent().find('input[type="checkbox"]').trigger('click');
                     }
+                    checkMultipleCheckBox();
                 });
 
                 // Handle click on "Select all" control
@@ -672,6 +723,7 @@
                     }else {
                         $('#mytable tbody input[type="checkbox"]:checked').trigger('click');
                     }
+                    checkMultipleCheckBox();
 
                     // Prevent click event from propagating to parent
                     e.stopPropagation();
@@ -719,6 +771,14 @@
                         if('indeterminate' in chkbox_select_all){
                             chkbox_select_all.indeterminate = true;
                         }
+                    }
+                }
+
+                function checkMultipleCheckBox() {
+                    if (rows_selected.length < 2) {
+                        document.getElementById('divMultipleCheckBox').style.visibility = 'hidden';
+                    }else{
+                        document.getElementById('divMultipleCheckBox').style.visibility = 'visible';
                     }
                 } 
             
@@ -886,6 +946,7 @@
         <script type="text/javascript">
             $(document).ready(function() { 
                 document.getElementById('divAddProduct_Id').style.visibility = 'hidden';
+                document.getElementById("divAddProduct_Id").style.display = "none";
             });
 
             $("#btnDivAddProduct_Id").click( function() {
@@ -1032,6 +1093,7 @@
         <script type="text/javascript">
             $(document).ready(function() { 
                 document.getElementById('divEditProduct_Id').style.visibility = 'hidden';
+                document.getElementById("divEditProduct_Id").style.display = "none";
             });
 
             $("#btnDivEditProduct_Id").click( function() {
@@ -1113,6 +1175,48 @@
             });
 
             $("#formDeleteAlert").submit( function() {
+                return false;
+            });
+        </script>
+
+        <!-- Button Drop Down Multiple CheckBox-->
+        <script type="text/javascript">
+            $(document).ready(function() { 
+                document.getElementById('divMultipleCheckBox').style.visibility = 'hidden';
+                document.getElementById("divEditProduct_Id").style.display = "none";
+            });
+        </script>
+
+        <!-- Click li DeleteMultipleProduct -->
+        <script type="text/javascript">
+            function deleteMultipleProduct() {
+                $('#modalDeleteMultipleAlert').modal('show');
+                document.getElementById("txtDeleteMultiplepID").value = rows_selected;
+            }
+        </script>
+
+        <!-- Delete Multiple Product -->
+        <script type="text/javascript">
+            $("#btnSubmitDeleteMultipleProduct").click( function() {
+                var data = $("#formDeleteMultipleAlert :input").serializeArray();
+
+                $.post( $("#formDeleteMultipleAlert").attr("action"),
+                    data, 
+                    function(){ 
+                        $.notify({
+                            icon: 'glyphicon glyphicon-ok-sign',
+                            title: '<b>ดำเนินการเสร็จสิ้น</b>',
+                            message: '<br>ลบรายการสินค้าเรียบร้อย'
+                        },{
+                            type: 'success',
+                            delay: 5000
+                        });
+                        tableReload();
+                    }  
+                );
+            });
+
+            $("#formDeleteMultipleAlert").submit( function() {
                 return false;
             });
         </script>
