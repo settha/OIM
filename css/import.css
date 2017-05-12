@@ -94,5 +94,42 @@ input[type="text"]
 }
 
 .ui-autocomplete {
-z-index: 3000;
+	z-index: 1500;
 }
+
+.ui-menu {
+	background: #b3ffff;
+}
+
+/*ul.ui-menu
+{
+    list-style-type: none;
+}
+
+ul.ui-menu li
+{
+    padding: 5px;
+    margin: 3px;
+    background-color: red;
+    border: 1px solid black;
+}
+
+ul.ui-menu li:hover
+{
+    background-color: lime;
+}*/
+
+/*li ul
+{
+    display: none;
+}
+
+li.ui-menu-item:hover ul
+{
+    display: block;
+}
+
+li ul li.ui-menu-item:hover
+{
+    background-color: red;
+}*/

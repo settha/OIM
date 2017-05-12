@@ -144,7 +144,7 @@
                         <span aria-hidden="true">&times;</span>
                         <span class="sr-only">Close</span>
                     </button>
-                    <h4 class="modal-title" id="modalLabelImportProduct">เพิ่มรายการสินค้า</h4>
+                    <h4 class="modal-title" id="modalLabelImportProduct">เพิ่มรายการนำสินค้าเข้า</h4>
                 </div>
                 
                 <!-- Modal Body -->
@@ -153,44 +153,26 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="importProduct_Id">รหัสสินค้า</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="importProduct_Id" name="importProduct_Id" placeholder="รหัสสินค้า" autocomplete="on"/>
-                                <div id="importProduct_IdList"></div> 
+                                <input type="text" class="form-control" id="importProduct_Id" name="importProduct_Id" placeholder="รหัสสินค้า"/>
+                                <input type="hidden" class="form-control" id="importProduct_IdCheck" name="importProduct_IdCheck" placeholder="รหัสสินค้า"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="inputProductName" >ชื่อสินค้า</label>
+                            <label class="col-sm-3 control-label" for="importProduct_Name" >ชื่อสินค้า</label>
                             <div class="col-sm-9">
-                                <input type="text" class="form-control" id="inputProductName" placeholder="ชื่อสินค้า"/>
+                                <input type="text" class="form-control" id="importProduct_Name" name="importProduct_Name" placeholder="ชื่อสินค้า"/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="inputProductName" >ประเภทสินค้า</label>
-                            <div class="col-sm-9">
-                                <select class="form-control form-select form-text -half" id="categoryID">
-                                    <option value="0">ไม่ระบุ</option>
-                                    <option value="1">ของเล่น</option>
-                                </select>
+                            <label class="col-sm-3 control-label" for="importProduct_Cost" >ราคาต่อหน่วย</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-lg text-right" id="importProduct_Cost" name="importProduct_Cost" placeholder="ราคาต่อหน่วย" tabindex="4" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
                             </div>
                         </div>
                         <div class="form-group">
-                            <label class="col-sm-3 control-label" for="inputCost" >ราคาซื้อ</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="inputCost" placeholder="ราคาซื้อ"/>
-                            </div>
-                            <label class="col-sm-3 control-label" for="inputPrice" >ราคาขาย</label>
-                            <div class="col-sm-3">
-                                <input type="text" class="form-control" id="inputPrice" placeholder="ราคาขาย"/>
-                            </div>
-                        </div>
-                        <div class="form-group">
-                            <label class="col-sm-3 control-label" for="inputQuantifyingNoun" >หน่วยสินค้า</label>
-                            <div class="col-sm-9">
-                                <!-- <input type="text" class="form-control" id="inputQuantifyingNoun" placeholder="ชิ้น, อัน, หลอด"/> -->
-                                <select class="form-control form-select form-text -half" id="categoryID">
-                                    <option value="0">ไม่ระบุ</option>
-                                    <option value="1">ตัว</option>
-                                    <option value="2">ชิ้น</option>
-                                </select>
+                            <label class="col-sm-3 control-label" for="importProduct_Amount" >จำนวน</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-lg text-right" id="importProduct_Amount" name="importProduct_Amount" placeholder="จำนวน" tabindex="4" value="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
                             </div>
                         </div>
                     </form>
@@ -199,10 +181,18 @@
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">ปิดหน้าต่าง</button>
-                    <button type="button" class="btn btn-primary" id="add_row" data-dismiss="modal">บันทึก</button>
+                    <button type="button" class="btn btn-primary" id="" data-dismiss="modal">เพิ่มรายการ</button>
                 </div>
             </div>
         </div>
+    </div>
+
+    <!-- Hidden Form Check Product_Id -->
+    <div id="divImportProduct_Id">
+        <form class="form-horizontal" role="form" id="formDivImportProduct_Id" method='POST' action="selectProduct_Id.php">
+            <input type="text" id="txtDivImportProduct_Id" name="txtDivImportProduct_Id" class="form-control" readonly/>
+            <button type="submit" id="btnDivImportProduct_Id" name="btnDivImportProduct_Id" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
+        </form>
     </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
@@ -236,75 +226,157 @@
 
         <!-- Product_Id List Show -->
         <script>
-  $( function() {
-    function log( message ) {
-      $( "<div>" ).text( message ).prependTo( "#log" );
-      $( "#log" ).scrollTop( 0 );
-    }
- 
-    $( "#importProduct_Id" ).autocomplete({
-      source: function( request, response ) {
-        $.ajax( {
-          url: "product_IdData.php",
-          dataType: "json",
-          data: {
-            term: request.term
-          },
-          success: function( data ) {
-            var results = $.ui.autocomplete.filter(data, request.term);
-            response(results.slice(0, 1));//for getting 5 results
-            //response( data );
-          }
-        } );
-        
-      },
-      minLength: 0,
-      select: function( event, ui ) {
-        log( ui.item ?
-          "Selected: " + ui.item.label :
-          "Nothing selected, input was " + this.value);
-      },
-      open: function() {
-        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
-      },
-      close: function() {
-        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
-      }
-    } ).bind('focus', function(){ $(this).autocomplete("search"); } );
-  } );
-  </script>
-        <!-- <script type="text/javascript">
-            $(document).ready(function() {
-                $('#importProduct_Id').autocomplete({
-                    source: "product_IdData.php",
-                    minLength: 0
+            var showLimit = 3;
+            $( function() {
+                $("#importProduct_Id").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                            url: "product_IdData.php",
+                            dataType: "json",
+                            data:{
+                                term: request.term
+                            },
+                            success: function(data) {
+                                response(data.slice(0, showLimit));  // slice(0, show limit)
+                            }
+                        });
+                    },
+                    minLength: 0,
+                    select: function(event, ui) {
+                        $("#importProduct_IdCheck").val(ui.item.label);
+                        if (ui.item.label.match("ไม่พบรหัสสินค้า")) {
+                            checkPID();
+                            document.getElementById("importProduct_Name").value = "";
+                            document.getElementById("importProduct_Cost").value = "";
+                        }else {
+                            $("#importProduct_Name").val(ui.item.Product_Name);
+                            $("#importProduct_Cost").val(ui.item.Product_Cost);
+                        }
+                    },
+                    open: function() {
+                        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                    },
+                    close: function() {
+                        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                    }
+                }).bind('focus', function(){ $(this).autocomplete("search"); } );
+            });
+
+            $("#importProduct_Id").blur(function() {
+                //Product_Id is null
+                if(document.getElementById("importProduct_Id").value == ""){
+                    document.getElementById("importProduct_Name").value = "";
+                    document.getElementById("importProduct_Cost").value = "";
+                }
+                
+                //Product_Id have value but Product_Name is null
+                else {
+                    document.getElementById("txtDivImportProduct_Id").value = document.getElementById("importProduct_Id").value;
+                    $("#btnDivImportProduct_Id").trigger('click');
+                }
+            });
+
+            function checkPID(){
+                setTimeout(function(){ 
+                    if(document.getElementById("importProduct_IdCheck").value == document.getElementById("importProduct_Id").value){
+                            document.getElementById("importProduct_Id").value = "";
+                    } 
+                }, 100);
+            }
+        </script>
+
+        <!-- Hidden Form ImportProduct Product_Id Search-->
+        <script type="text/javascript">
+            $(document).ready(function() { 
+                document.getElementById('divImportProduct_Id').style.visibility = 'hidden';
+                document.getElementById("divImportProduct_Id").style.display = "none";
+            });
+
+            $("#btnDivImportProduct_Id").click( function() {
+                var data = $("#formDivImportProduct_Id :input").serializeArray();
+
+                $.post( $("#formDivImportProduct_Id").attr("action"),
+                    data, 
+                    function(info){
+                        if (info != "no") {
+                            var arrayProduct = info.split(",");
+                            // arrayProduct => [0] = Product_Name, [1] = Product_Cost 
+                            document.getElementById("importProduct_Name").value = arrayProduct[0];
+                            document.getElementById("importProduct_Cost").value = arrayProduct[1];
+                        } else{
+                            document.getElementById("importProduct_Name").value = "";
+                            document.getElementById("importProduct_Cost").value = "";
+                        }
+                    }  
+                );
+
+                $("#formDivImportProduct_Id").submit( function() {
+                    return false;
                 });
             });
-        </script> -->
-        <!-- <script>  
-            $(document).ready(function(){  
-                $('#importProduct_Id').keyup(function(){  
-                    var query = $(this).val();  
-                    if(query != '')  
-                    {  
-                        $.ajax({  
-                            url:"product_IdData.php",  
-                            method:"POST",  
-                            data:{query:query},  
-                            success:function(data) {  
-                                $('#importProduct_IdList').fadeIn();  
-                                $('#importProduct_IdList').html(data);  
-                            }  
-                        });  
-                    }  
-                });  
-            
-                $(document).on('click', 'li', function(){  
-                    $('#importProduct_Id').val($(this).text());  
-                    $('#importProduct_IdList').fadeOut();  
-                });  
-            });  
-        </script> -->
+        </script>
 
-  </body>
+        <!-- Product_Name List Show -->
+        <script>
+            $( function() {
+                $("#importProduct_Name").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                            url: "product_NameData.php",
+                            dataType: "json",
+                            data:{
+                                term: request.term
+                            },
+                            success: function(data) {
+                                response(data.slice(0, showLimit));  // slice(0, show limit)
+                            }
+                        });
+                    },
+                    minLength: 0,
+                    select: function(event, ui) {
+                        $("#importProduct_Id").val(ui.item.Product_Id);
+                        $("#importProduct_Cost").val(ui.item.Product_Cost);
+                    },
+                    open: function() {
+                        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                    },
+                    close: function() {
+                        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                    }
+                }).bind('focus', function(){ $(this).autocomplete("search"); } );
+            });
+
+        </script>
+
+        <!-- Modal AddProduct -->
+        <script type="text/javascript">
+            $('#modalImportProduct').on('shown.bs.modal', function() {
+                //$('#importProduct_Id').focus();
+
+                $("input[id='importProduct_Cost']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 0.25,
+                    forcestepdivisibility: 'none',
+                    decimals: 2,
+                    boostat: 5,
+                    maxboostedstep: 10,
+                    postfix: 'บาท'
+                });
+
+                $("input[id='importProduct_Amount']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 1,
+                    forcestepdivisibility: 'none',
+                    decimals: 0,
+                    boostat: 5,
+                    maxboostedstep: 10
+                });
+
+                
+            })
+        </script>
+
+</body>
 </html>

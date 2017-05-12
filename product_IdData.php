@@ -1,33 +1,20 @@
  <?php
   include_once('connectDB.php');
 
-// Query to get the usable locations
+    // Query to get the usable locations
     $Product_Id = $_GET['term'];
 
     $sql = "SELECT * FROM Product WHERE Product_Id LIKE '%$Product_Id%'";
     $result = mysqli_query($dbConnect, $sql);            
 
-    $Product_IdList = array();
     while($row = mysqli_fetch_assoc($result)){
-        $list = $row['Product_Id'];
-        array_push($Product_IdList, $list);
+      $return_arr[] = array('label' => $row['Product_Id'],
+                            'Product_Id' => $row['Product_Id'],
+                            'Product_Name' => $row['Product_Name'],
+                            'Product_Cost' =>  $row['Product_Cost']);
     }
-    $json = json_encode($Product_IdList);
-    echo $json;
-  
-  // if(isset($_POST["query"])) {  
-  //   $output = '';  
-  //   $sql = "SELECT * FROM Product WHERE Product_Id LIKE '%".$_POST["query"]."%'";  
-  //   $result = mysqli_query($dbConnect, $sql);  
-  //   $output = '<ul class="list-unstyled">';  
-  //   if(mysqli_num_rows($result) > 0) {  
-  //     while($row = mysqli_fetch_array($result)) {  
-  //       $output .= '<li>'.$row["Product_Id"].'</li>';  
-  //     }  
-  //   }else {  
-  //     $output .= '<li>Country Not Found</li>';  
-  //   }  
-  //   $output .= '</ul>';  
-  //   echo $output;  
-  // }  
+    if (mysqli_num_rows($result) == 0) {
+       $return_arr[] = array('label' => "ไม่พบรหัสสินค้า " .$Product_Id);
+    }
+      echo json_encode($return_arr);
  ?>  
