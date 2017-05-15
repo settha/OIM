@@ -164,6 +164,7 @@
                             <label class="col-sm-3 control-label" for="importProduct_Name" >ชื่อสินค้า</label>
                             <div class="col-sm-7">
                                 <input type="text" class="form-control" id="importProduct_Name" name="importProduct_Name" placeholder="ชื่อสินค้า"/>
+                                <input type="hidden" class="form-control" id="importProduct_NameCheck" name="importProduct_NameCheck" placeholder="ชื่อสินค้า"/>
                             </div>
                         </div>
                         <div class="form-group">
@@ -308,7 +309,7 @@
         </div>
     </div>
 
-    <!-- Hidden Form Check Product_Id -->
+    <!-- Hidden Form Check Add Product_Id -->
     <div id="divAddProduct_Id">
         <form class="form-horizontal" role="form" id="formDivAddProduct_Id" method='POST' action="checkProduct_Id.php">
             <input type="text" id="txtDivAddProduct_Id" name="txtDivAddProduct_Id" class="form-control" readonly/>
@@ -317,11 +318,19 @@
         </form>
     </div>
 
-    <!-- Hidden Form Check Product_Id -->
+    <!-- Hidden Form Check Import Product_Id -->
     <div id="divImportProduct_Id">
         <form class="form-horizontal" role="form" id="formDivImportProduct_Id" method='POST' action="selectProduct_Id.php">
             <input type="text" id="txtDivImportProduct_Id" name="txtDivImportProduct_Id" class="form-control" readonly/>
             <button type="submit" id="btnDivImportProduct_Id" name="btnDivImportProduct_Id" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
+        </form>
+    </div>
+
+    <!-- Hidden Form Check Import Product_Name -->
+    <div id="divImportProduct_Name">
+        <form class="form-horizontal" role="form" id="formDivImportProduct_Name" method='POST' action="selectProduct_Name.php">
+            <input type="text" id="txtDivImportProduct_Name" name="txtDivImportProduct_Name" class="form-control" readonly/>
+            <button type="submit" id="btnDivImportProduct_Name" name="btnDivImportProduct_Name" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
         </form>
     </div>
 
@@ -370,7 +379,7 @@
 
         <!-- Product_Id List Show -->
         <script>
-            var showLimit = 3;
+            var showLimit = 5;
             $( function() {
                 $("#importProduct_Id").autocomplete({
                     source: function(request, response) {
@@ -453,7 +462,7 @@
                             $.notify({
                             icon: 'glyphicon glyphicon-warning-sign',
                             title: '<b>ไม่พบรหัสสินค้านี้</b>',
-                            message: '<br>โปรดแก้ไขรหัสสินค้าหรือทำการเพิ่มรายการสินค้า'
+                            message: '<br>โปรดแก้ไขรหัสสินค้าหรือทำการเพิ่มสินค้าใหม่'
                             },{
                                 type: 'warning',
                                 delay: 3000,
@@ -487,8 +496,15 @@
                     },
                     minLength: 0,
                     select: function(event, ui) {
-                        $("#importProduct_Id").val(ui.item.Product_Id);
-                        $("#importProduct_Cost").val(ui.item.Product_Cost);
+                        $("#importProduct_NameCheck").val(ui.item.label);
+                        if (ui.item.label.match("ไม่พบชื่อสินค้า")) {
+                            checkPName();
+                            document.getElementById("importProduct_Id").value = "";
+                            document.getElementById("importProduct_Cost").value = "";
+                        }else {
+                            $("#importProduct_Id").val(ui.item.Product_Id);
+                            $("#importProduct_Cost").val(ui.item.Product_Cost);
+                        }
                     },
                     open: function() {
                         $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
@@ -499,6 +515,67 @@
                 }).bind('focus', function(){ $(this).autocomplete("search"); } );
             });
 
+            $("#importProduct_Name").blur(function() {
+                //Product_Id is null
+                if(document.getElementById("importProduct_Name").value == ""){
+                    document.getElementById("importProduct_Id").value = "";
+                    document.getElementById("importProduct_Cost").value = "";
+                }
+                
+                //Product_Id have value set 
+                else {
+                    document.getElementById("txtDivImportProduct_Name").value = document.getElementById("importProduct_Name").value;
+                    $("#btnDivImportProduct_Name").trigger('click');
+                }
+            });
+
+            function checkPName(){
+                setTimeout(function(){ 
+                    if(document.getElementById("importProduct_NameCheck").value == document.getElementById("importProduct_Name").value){
+                            document.getElementById("importProduct_Name").value = "";
+                    } 
+                }, 100);
+            }
+        </script>
+
+        <!-- Hidden Form ImportProduct Product_Name Search-->
+        <script type="text/javascript">
+            $(document).ready(function() { 
+                document.getElementById('divImportProduct_Name').style.visibility = 'hidden';
+                document.getElementById("divImportProduct_Name").style.display = "none";
+            });
+
+            $("#btnDivImportProduct_Name").click( function() {
+                var data = $("#formDivImportProduct_Name :input").serializeArray();
+
+                $.post( $("#formDivImportProduct_Name").attr("action"),
+                    data, 
+                    function(info){
+                        if (info != "no") {
+                            var arrayProduct = info.split(",");
+                            // arrayProduct => [0] = Product_Id, [1] = Product_Cost 
+                            document.getElementById("importProduct_Id").value = arrayProduct[0];
+                            document.getElementById("importProduct_Cost").value = arrayProduct[1];
+                        } else{
+                            document.getElementById("importProduct_Id").value = "";
+                            document.getElementById("importProduct_Cost").value = "";
+                            $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: '<b>ไม่พบชื่อสินค้านี้</b>',
+                            message: '<br>โปรดแก้ไขชื่อสินค้าหรือทำการเพิ่มสินค้าใหม่'
+                            },{
+                                type: 'warning',
+                                delay: 3000,
+                                z_index: 2062
+                            });
+                        }
+                    }  
+                );
+
+                $("#formDivImportProduct_Name").submit( function() {
+                    return false;
+                });
+            });
         </script>
 
         <!-- Modal ImportProduct -->
