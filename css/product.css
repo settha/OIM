@@ -67,7 +67,7 @@ input[type="text"]
 	padding: 10px 15px 10px;
 	margin: 0;
 	border: 1px solid #DEDEDE;
-	background-color: #F7F7F7;
+	background-color: #edf0f7;
 }
 
 .form-search .search-input {
@@ -85,6 +85,9 @@ input[type="text"]
 .btn-add {
 	margin: 0;
   	padding: 10px 10px 10px 10px;
+  	background-color: #6e88c4;
+  	color: white;
+  	font-size: 16px;
 }
 
 .txtHeadModal {
@@ -92,3 +95,9 @@ input[type="text"]
 	padding-bottom: 15px; 
 	font-size: 20px;
 }
+
+th {
+	color: #2c406d;
+	background-color: #edf0f8;
+}
+
