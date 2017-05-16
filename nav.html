@@ -15,7 +15,17 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li id="product" class="liEdit"><a id="productLink" href="#"><b>สินค้า</b></a></li>
-                    <li id="import" class="liEdit"><a id="importLink" href="#"><b>นำสินค้าเข้า</b></a></li>
+                    <!-- <li id="import" class="liEdit"><a id="importLink" href="#"><b>นำสินค้าเข้า</b></a></li> -->
+                    <li class="dropdown" id="import" class="liEdit">
+                        <a id="importLink" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">นำสินค้าเข้า <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">นำ</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li role="separator" class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                    </li>
                     <li id="export" class="liEdit"><a id="exportLink" href="#"><b>จ่ายสินค้าออก</b></a></li>
                 </ul>
           

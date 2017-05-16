@@ -112,7 +112,7 @@
                                     <th class="col-sm-3 col-md-3" style="min-width: 75px;">ชื่อสินค้า</th>
                                     <th class="col-sm-1 col-md-1" style="text-align: right; min-width: 35px ;">จำนวน</th>
                                     <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 35px ;">ราคาต่อหน่วย (฿)</th>
-                                    <th class="col-sm-1 col-md-1" style="text-align: right; min-width: 50px ;">รวม</th>
+                                    <th class="col-sm-1 col-md-1" style="text-align: right; min-width: 50px ;">รวม (฿)</th>
                                     <th class="col-sm-1 col-md-1 text-center" style="min-width: 40px;"></th>
                                     <th class="col-sm-1 col-md-1 text-center" style="min-width: 40px; width: 60px"></th>
                                 </tr>
@@ -124,22 +124,45 @@
                     </div>
                 </div>
                
-                <div class="col-xs-12 col-sm-6 col-md-6 selectShowCount">
+                <!-- <div class="col-xs-12 col-sm-6 col-md-6 selectShowCount">
                     <div class="dataInfo" id="infoContrainer"></div>
                 </div>
                 <div class="col-xs-12 col-sm-6 col-md-6">
                     <div class="dataPagination pull-right" id="paginationControl"></div>
-                </div>               
+                </div>  -->              
             </div>
         </div>
 
         <div class="row">
             <div class="form">
-                <div class="form-group">
-                    <button type="button" class="btn pull-right btn-import" id="btnAddItem" data-toggle="modal" data-target="#modalImportProduct""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> เพิ่มรายการ</button>
+                <div class="form-group" style="padding-top: 0px;">
+                    <div class="col-xs-4 col-sm-6">
+                        <button type="button" class="btn pull-left btn-import" id="btnImportItem" data-toggle="modal" data-target="#modalImportProduct""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> เพิ่มรายการ</button>
+                    </div>
+                    <!-- <div class="col-sm-6"></div> -->
+                    <div class="col-xs-8 col-sm-6">
+                        <div class="col-xs-6 col-sm-5">
+                            <label class="pull-right">มูลค่ารวม: </label>
+                        </div>
+                        <div class="col-xs-6 col-sm-4">
+                            <input type="text" class="form-control import-input" id="txtTotalCost" name="txtTotalcost" placeholder="0 บาท" value="0 บาท" style="text-align: right;" readonly/>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
                 </div>
             </div>
-            
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-group" style="padding-top: 50px;">
+                    <div class="col-sm-5"></div>
+                    <div class="col-sm-2" id="divBtnImportItemSave">
+                        <button type="button" class="btn pull-left btn-importSave" id="btnImportItemSave" onclick="ImportItemSave()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> บันทึกการนำสินค้าเข้า</button>
+                    </div>
+                    <div class="col-sm-5"></div>
+                </div>
+            </div>
         </div>
         
     </div>
@@ -398,7 +421,7 @@
                             <label class="col-sm-3 control-label" for="editProduct_Id">รหัสสินค้า</label>
                             <div class="col-sm-8">
                                 <input type="text" class="form-control" id="editProduct_Id" placeholder="รหัสสินค้า" tabindex="1" />
-                                <input type="hidden" class="form-control" id="editLastProduct_Id" placeholder="รหัสสินค้า" tabindex="1" />
+                                <input type="hidden" class="form-control" id="editNo" placeholder="No." tabindex="1" />
                             </div>
                         </div>
 
@@ -419,7 +442,7 @@
                         <div class="form-group">
                             <label class="col-sm-3 control-label" for="editProduct_Amount" >จำนวน</label>
                             <div class="col-sm-6">
-                                <input type="text" class="form-control input-lg text-right" id="editProduct_Price" placeholder="ราคาขาย" tabindex="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
+                                <input type="text" class="form-control input-lg text-right" id="editProduct_Amount" placeholder="ราคาขาย" tabindex="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
                             </div>
                         </div>
 
@@ -429,8 +452,42 @@
                 <!-- Modal Footer -->
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="8">ปิดหน้าต่าง</button>
-                    <button type="button" class="btn btn-primary" tabindex="7" onclick="checkInputEditProduct()">บันทึก</button>
+                    <button type="button" class="btn btn-primary" tabindex="7" data-dismiss="modal" onclick="editRowSave()">บันทึก</button>
                 </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Import Product Save Alert-->
+    <div class="modal fade" id="modalImportProductSave" data-backdrop-limit="1" tabindex="-1" role="dialog" aria-labelledby="modalLabelImportProductSave" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelImportProductSave">ต้องการบันทึกหรือไม่</h4>
+                </div>
+                
+                <!-- Modal Body -->
+                <form class="form-horizontal" role="form">
+                    <div class="modal-body">
+                        <div class="txtDeleteRowHeadModal">
+                            <label class="control-label">ยืนยันการบันทึกการนำสินค้าเข้า</label>
+                        </div>
+                        
+                        <input type="hidden" class="form-control" id="txtBTN" name="txtBTN" placeholder="BTN" tabindex="" readonly />
+                        
+                    </div>
+                
+                <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="">ยกเลิก</button>
+                        <button type="submit" id="btnSubmitImportProductSave" name="btnSubmitImportProductSave" class="btn btn-primary" data-dismiss="modal" tabindex="">ยืนยัน</button>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
@@ -461,6 +518,7 @@
 
     <!-- Bootstrap Datetimepicker 
     http://eonasdan.github.io/bootstrap-datetimepicker/ -->
+    <!-- Moment.js Declare Before datetimpicker.js -->
     <script src="js/moment.js"></script>
     <script src="js/bootstrap-datetimepicker.min.js"></script>
     <script src="js/th.js"></script>
@@ -477,7 +535,7 @@
 
         <!-- Click Button Add Item -->
         <script type="text/javascript">
-            $("#btnAddItem").click(function() {
+            $("#btnImportItem").click(function() {
                 document.getElementById("importProduct_Id").value = "";
                 document.getElementById("importProduct_Name").value = "";
                 document.getElementById("importProduct_Cost").value = "";
@@ -880,7 +938,14 @@
 
         <!-- Delete Row of Table -->
         <script type="text/javascript">
+            //Start Save Buttun not Show
+            // $(document).ready(function() { 
+            //     document.getElementById("divBtnImportItemSave").style.visibility = "hidden";
+            //     document.getElementById("divBtnImportItemSave").style.display = "none";
+            // });
+
             window.no = 0;
+            window.rowId;
 
             //Alert Delete Any Row
             var row;
@@ -891,6 +956,7 @@
 
             $("#btnSubmitDeleteRowProduct").click( function() {
                 deleteRow();
+                calculateTotalCost();
             });
 
             //Delete Any Row
@@ -902,7 +968,8 @@
                 renumberRows();
                 //Button Save will Show when Have Data in Table
                 if (no == 0) {
-                    document.getElementById("saveItem").style.visibility = "hidden";
+                    // document.getElementById("divBtnImportItemSave").style.visibility = "hidden";
+                    // document.getElementById("divBtnImportItemSave").style.display = "none";
                 }
             }
 
@@ -913,40 +980,31 @@
             }
 
             $(document).ready(function(){
-                var i=0;
+                // i is No. of <tr> add
+                rowId=0;
                 //Add Row Data From Modal Import Summit 
                 $("#add_row").click(function(){
-                    var productID = document.getElementById('importProduct_Id');
-                    var productName = document.getElementById('importProduct_Name');
-                    var productCost = document.getElementById('importProduct_Cost');
-                    var productAmount = document.getElementById('importProduct_Amount');
-                    productTotalCost = parseFloat(productCost.value) * parseFloat(productAmount.value);
-                    alert(parseFloat(productAmount.value));
-                    $('#addrow'+i).html("<td class='importNo' style='text-align: center'>" +(no+1)+ "</td> <td class='importProductId' id='PId"+(no+1)+"'>" +productID.value+ "</td> <td class='importProductName' id='PName"+(no+1)+"'>" +productName.value+ "</td> <td class='importProductAmount' style='text-align: right' id='PAmount"+(no+1)+"'>" +productAmount.value+ "</td> <td class='importProductCost' style='text-align: right' id='PCost"+(no+1)+"'>" +productCost.value+ "</td> <td class='importProductTotalCost' style='text-align: right' id='PTotalCost"+(no+1)+"'>" +productTotalCost.toFixed(2)+ "</td>  <td class='' style='text-align: center'><input type='button' value='แก้ไข' id='' class='btn-edit' onclick='editRow("+(no+1)+")' /></td> <td class='' style='text-align: center'><input type='button' value='ลบ' id='' class='btn-delete' onclick='deleteRowAlert(this)'/></td>");
+                    var productID = document.getElementById('importProduct_Id').value;
+                    var productName = document.getElementById('importProduct_Name').value;
+                    var productCost = document.getElementById('importProduct_Cost').value;
+                    var productAmount = document.getElementById('importProduct_Amount').value;
+                    productTotalCost = parseFloat(productCost) * parseFloat(productAmount);
 
-                    $('#myTable').append('<tr id="addrow'+(i+1)+'"></tr>');
+                    $('#addrow'+rowId).html("<td class='importNo' style='text-align: center'>" +(no+1)+ "</td> <td class='importProductId' id='PId"+rowId+"'>" +productID+ "</td> <td class='importProductName' id='PName"+rowId+"'>" +productName+ "</td> <td class='importProductAmount' style='text-align: right' id='PAmount"+rowId+"'>" +productAmount+ "</td> <td class='importProductCost' style='text-align: right' id='PCost"+rowId+"'>" +productCost+ "</td> <td class='importProductTotalCost' style='text-align: right' id='PTotalCost"+rowId+"' name:'PTotalCost[]'>" +productTotalCost.toFixed(2)+ "</td>  <td class='' style='text-align: center'><input type='button' value='แก้ไข' id='' class='btn-edit' onclick='editRow("+rowId+")' /></td> <td class='' style='text-align: center'><input type='button' value='ลบ' id='' class='btn-delete' onclick='deleteRowAlert(this)'/></td>");
 
-                    i++;
+                    $('#myTable').append('<tr id="addrow'+(rowId+1)+'"></tr>');
+
+                    rowId++;
                     no++;
+                    calculateTotalCost();
                 });
      
                 $("#delete_row").click(function(){
-                    if(i>0){
-                        i--;
+                    if(rowId>0){
+                        rowId--;
                     }
                 });
             });
-        </script>
-
-        <!-- Edit Row Data -->
-        <script type="text/javascript">
-            function editRow(id){
-                alert(document.getElementById("PID"+id).innerHTML)
-            }
-
-            function insertText () {
-                document.getElementById('td1').innerHTML = "Some text to enter";
-            }
         </script>
 
         <!-- Bootstrap Datetimepicker -->
@@ -959,7 +1017,90 @@
                     ignoreReadonly: true
                 });
             });
-        </script> 
+        </script>
+
+        <!-- Modal Edit Product -->
+        <script type="text/javascript">
+            $('#modalEditProduct').on('shown.bs.modal', function() {
+                $("input[id='editProduct_Cost']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 0.25,
+                    forcestepdivisibility: 'none',
+                    decimals: 2,
+                    boostat: 5,
+                    maxboostedstep: 10,
+                    postfix: 'บาท'
+                });
+
+                $("input[id='editProduct_Amount']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 1,
+                    forcestepdivisibility: 'none',
+                    decimals: 0,
+                    boostat: 5,
+                    maxboostedstep: 10
+                });
+            })
+        </script>
+
+        <!-- Edit Row Data -->
+        <script type="text/javascript">
+            function editRow(id){
+                $('#modalEditProduct').modal('show');
+                document.getElementById('editNo').value = id;
+                document.getElementById('editProduct_Id').value = document.getElementById("PId"+id).innerHTML;
+                document.getElementById('editProduct_Name').value = document.getElementById("PName"+id).innerHTML;
+                document.getElementById('editProduct_Cost').value = document.getElementById("PCost"+id).innerHTML;
+                document.getElementById('editProduct_Amount').value = document.getElementById("PAmount"+id).innerHTML;
+            }
+
+            function editRowSave() {
+                id = document.getElementById('editNo').value;
+                document.getElementById("PId"+id).innerHTML = document.getElementById('editProduct_Id').value;
+                document.getElementById("PName"+id).innerHTML = document.getElementById('editProduct_Name').value;
+                document.getElementById("PCost"+id).innerHTML = document.getElementById('editProduct_Cost').value;
+                document.getElementById("PAmount"+id).innerHTML = document.getElementById('editProduct_Amount').value;
+                document.getElementById("PTotalCost"+id).innerHTML = (parseFloat(document.getElementById('editProduct_Amount').value) * parseFloat(document.getElementById('editProduct_Cost').value)).toFixed(2);
+                calculateTotalCost();
+            }
+        </script>
+
+        <!-- Calculate when Add Edit Delete Item-->
+        <script type="text/javascript">
+            function calculateTotalCost() {
+                var sum = 0;
+                for (i = 0; i <= rowId; i++) { 
+                    if ($("#PTotalCost" + i).length > 0){
+                        sum += parseFloat(document.getElementById("PTotalCost"+i).innerHTML);
+                    }
+                }
+                var text = sum + " บาท";
+                alert(text);
+                document.getElementById("txtTotalCost").value = text;
+            }
+        </script>
+
+        <!-- Save Import Product -->
+        <script type="text/javascript">
+            function ImportItemSave(){
+                //no=0 when Table not have Product
+                if(no == 0){
+                    $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: '<b>ไม่มีรายการนำสินค้าเข้า</b>',
+                            message: '<br>โปรดเพิ่มรายการนำสินค้าเข้า'
+                            },{
+                                type: 'warning',
+                                delay: 3000,
+                                z_index: 2062
+                            });
+                }else{
+                    $('#modalImportProductSave').modal('show');
+                }
+            }
+        </script>
 
 </body>
 </html>

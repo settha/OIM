@@ -99,6 +99,14 @@ input[type="text"]
   	width: 60px;
 }
 
+.btn-importSave {
+	margin: 0;
+  	padding: 10px 10px 10px 10px;
+  	background-color: #00cc44;
+  	color: white;
+  	font-size: 16px;
+}
+
 .txtHeadModal {
 	padding-left: : 10px;
 	padding-bottom: 15px; 
