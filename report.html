@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>รายการนำสินค้าเข้า - ระบบจัดการสินค้าและคลังสินค้าแบบออนไลน์</title>
+    <title>รายงาน - ระบบจัดการสินค้าและคลังสินค้าแบบออนไลน์</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
@@ -44,21 +44,66 @@
     <div class="container">
         <div class="row">
             <div class="form">
-                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 pull-left">
-                    <h1 class="text-head">รายการนำสินค้าเข้า</h1>
-                </div>               
-                
+                <div class="col-sm-6 col-md-6 col-lg-6 pull-left">
+                    <h1 class="text-head">รายงานภาพรวม</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-search col-md-12">
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-4 col-md-4">
+                                
+                            </div>
+                            <div class="col-sm-8 col-md-8">
+                                <label>สรุปยอดขายวันนี้</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-4 col-md-4">
+                                
+                            </div>
+                            <div class="col-sm-8 col-md-8">
+                                <label>สรุปยอดขายเดือนนี้</label>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-sm-4 col-md-4">
+                        <div class="form-group">
+                            <div class="col-sm-4 col-md-4">
+                                
+                            </div>
+                            <div class="col-sm-8 col-md-8">
+                                <label>สรุปยอดขายปีนี้</label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
         <div class="row">
             <div class="form">
                 <div class="form-group">
-                    <div class="form-search">
-                        <span class="glyphicon glyphicon-search search-logo" aria-hidden="true"></span>
-                        <input type="text" name="" id="myInput" placeholder="พิมพ์คำค้นหา" class="search-input" onkeypress="" />
+                    <div class="col-xs-9 col-sm-6 col-md-6 col-lg-6 pull-left">
+                        <h4 class="">รายการสินค้าเคลื่อนไหวย้อนหลัง <span class="hidden-xs">???</span></h4>
+                    </div>
+                    <div class="col-sm-4 col-md-4 col-lg-4"></div>
+                    <div class="col-xs-3 col-sm-2 col-md-2 col-lg-2 pull-right selectShow">
+                        <select name='' id='' class="form-control selectShowText">
+                            <option value='1'>วันนี้</option>
+                            <option value='2'>7 วัน</option>
+                            <option value='3'>1 เดือน</option>
+                        </select>
                     </div>
                 </div>
+            </div>
+        </div>
 
         <div class="row">
             <div class="form">
@@ -67,15 +112,12 @@
                         <table id="mytable" class="table table-striped table-bordered table-hover">
                             <thead>
                                 <tr>
-                                    <th class="">
-                                        <input type="checkbox" id="select_all" name="select_all" value="1" />
-                                    </th>
-                                    <th class="col-sm-2 col-md-2" style="min-width: 40px;">ID</th>
-                                    <th class="col-sm-2 col-md-2" style="min-width: 35px;">รหัสรายการ</th>
-                                    <th class="col-sm-2 col-md-2" style="min-width: 75px;">วันที่ทำรายการ</th>
-                                    <th class="col-sm-2 col-md-2" style="min-width: 35px ;">ชื่อคู่ค้า</th>
-                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 35px ;">มูลค่ารวม (฿)</th>
-                                    <th class="col-sm-1 col-md-1 text-center"></th>
+                                    <th class="">No.</th>
+                                    <th class="col-sm-2 col-md-2" style="min-width: 35px;">รหัสสินค้า</th>
+                                    <th class="col-sm-3 col-md-3" style="min-width: 75px;">ชื่อสินค้า</th>
+                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 35px ;">เข้า</th>
+                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 35px ;">ออก</th>
+                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 50px ;">คงเหลือ</th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -91,16 +133,13 @@
                 </div>               
             </div>
         </div>
-    </div>
 
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.12.4.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
-
-    <!-- JQuery UI -->
-    <script src="js/jquery-ui.js"></script>
 
     <!-- Datatables -->
     <script src="js/jquery.dataTables.min.js"></script>
@@ -118,14 +157,6 @@
     http://bootstrap-notify.remabledesigns.com/ -->
     <script src="js/bootstrap-notify.js"></script>
 
-    <!-- Bootstrap Datetimepicker 
-    http://eonasdan.github.io/bootstrap-datetimepicker/ -->
-    <!-- Moment.js Declare Before datetimpicker.js -->
-    <script src="js/moment.js"></script>
-    <script src="js/bootstrap-datetimepicker.min.js"></script>
-    <script src="js/th.js"></script>
-    
-
     <!-- Include HTML W3-->
     <script src="js/w3data.js"></script>
     <script>
@@ -134,5 +165,6 @@
 
     <!-- My Script -->
     <script src="js/activeMenu.js"></script>
+
 </body>
 </html>

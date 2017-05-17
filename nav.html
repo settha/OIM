@@ -14,23 +14,48 @@
 
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
-                    <li id="product" class="liEdit"><a id="productLink" href="#"><b>สินค้า</b></a></li>
+                    <li id="report" class="liEdit"><a id="reportLink" href="report.html"><b>สรุปรายงาน</b></a></li>
+                    <li id="product" class="liEdit"><a id="productLink" href="product.html"><b>สินค้า</b></a></li>
                     <!-- <li id="import" class="liEdit"><a id="importLink" href="#"><b>นำสินค้าเข้า</b></a></li> -->
-                    <li class="dropdown" id="import" class="liEdit">
-                        <a id="importLink" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">นำสินค้าเข้า <span class="caret"></span></a>
+                    <li class="dropdown liEdit" id="import">
+                        <a id="importLink" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">สินค้าเข้า <span class="caret"></span></a>
                         <ul class="dropdown-menu">
-                            <li><a href="#">นำ</a></li>
-                            <li><a href="#">Another action</a></li>
-                            <li><a href="#">Something else here</a></li>
-                            <li role="separator" class="divider"></li>
-                            <li><a href="#">Separated link</a></li>
+                            <li><a href="import.html">สร้างรายการสินค้าเข้า</a></li>
+                            <li><a href="importList.html">ดูรายการสินค้าเข้า</a></li>
                         </ul>
                     </li>
-                    <li id="export" class="liEdit"><a id="exportLink" href="#"><b>จ่ายสินค้าออก</b></a></li>
+                    <!-- <li id="export" class="liEdit"><a id="exportLink" href="#"><b>จ่ายสินค้าออก</b></a></li> -->
+                    <li class="dropdown liEdit" id="export">
+                        <a id="exportLink" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">สินค้าออก <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="export.html">สร้างรายการสินค้าออก</a></li>
+                            <li><a href="exportList.html">ดูรายการสินค้าออก</a></li>
+                        </ul>
+                    </li>
                 </ul>
           
-                <ul class="nav navbar-nav navbar-right">
-                    <li><a href="#">User!!!</a></li>
+                <ul class="nav navbar-nav navbar-right" style="margin-top: 0px;margin-bottom: 0px;">
+                    <li class="dropdown liEdit" id="alert">
+                        <a id="alertLink" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false"><span class="glyphicon glyphicon-bell"></span> แจ้งเตือน</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="www.google.com">
+                                <label>เตือน</label>
+                                <p>สินค้า A ใกล้หมดแล้ว</p>
+                            </a></li>
+                            <li role="separator" class="divider" style="margin-bottom: 2.5px;"></li>
+                            <li><a href="notification.html">ดูการแจ้งเตือนทั้งหมด</a></li>
+                        </ul>
+                    </li>
+                    
+                    <!-- <li><a href="#">User!!!</a></li> -->
+                    <li class="dropdown liEdit" id="user">
+                        <a id="userLink" href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">User <span class="caret"></span></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">เปลี่ยนรหัสผ่าน</a></li>
+                            <li role="separator" class="divider" style="margin-top: 2.5px;margin-bottom: 2.5px;"></li>
+                            <li><a href="#">ออกจากระบบ</a></li>
+                        </ul>
+                    </li>
                 </ul>
             </div>
         </div>      

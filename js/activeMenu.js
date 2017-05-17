@@ -23,6 +23,15 @@ setTimeout(function(){
         document.getElementById("exportLink").href="export.html";
     }
 
+    if (window.location.pathname == "/OIM/importList.html") {
+        var addClass = document.getElementById("import");
+        addClass.className = " active";
+
+        document.getElementById("productLink").href="product.html";
+        document.getElementById("importLink").href="#"; 
+        document.getElementById("exportLink").href="export.html";
+    }
+
     if (window.location.pathname == "/OIM/export.html") {
         var addClass = document.getElementById("export");
         addClass.className = " active";
