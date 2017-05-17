@@ -101,3 +101,9 @@ th {
 	background-color: #edf0f8;
 }
 
+.imgReport {
+	margin-top: -10px; 
+	max-width: 40px;
+	max-height: 40px;
+}
+
