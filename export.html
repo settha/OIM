@@ -6,10 +6,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta http-equiv="content-type" content="text/html; charset=utf-8">
     <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-    <title>สินค้า - ระบบจัดการสินค้าและคลังสินค้าแบบออนไลน์</title>
+    <title>จ่ายสินค้าออก - ระบบจัดการสินค้าและคลังสินค้าแบบออนไลน์</title>
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- JQuery UI -->
+    <link href="css/jquery-ui.css" rel="stylesheet">
 
     <!-- DataTables -->
     <link href="css/dataTables.bootstrap.min.css" rel="stylesheet">
@@ -22,13 +25,17 @@
     <!-- http://www.virtuosoft.eu/code/bootstrap-touchspin/ -->
     <link href="css/jquery.bootstrap-touchspin.css" rel="stylesheet">
 
+    <!-- Bootstrap Datetimepicker 
+    http://eonasdan.github.io/bootstrap-datetimepicker/ -->
+    <link href="css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+
     <!-- Font CSS -->
     <!-- https://fonts.google.com/specimen/Itim -->
     <link href="css/itim-font.css" rel="stylesheet">
 
     <!-- My CSS -->
     <link href="css/nav.css" rel="stylesheet">
-    <link href="css/product.css" rel="stylesheet">
+    <link href="css/export.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -37,15 +44,462 @@
       script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
   </head>
-
+  <body>
     <div w3-include-html="nav.html"></div> 
 
-    <h1>E</h1>
+    <div class="container">
+        <div class="row">
+            <div class="form">
+                <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6 pull-left">
+                    <h1 class="text-head">จ่ายสินค้าออก</h1>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-export col-md-12">
+                    <!-- Left Form -->
+                    <div class="col-md-6">
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                <label>รายการ</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control export-input" id="exportList" name="exportList" placeholder="รหัสทำรายการ"  />
+                            </div>
+                        </div>
+                        <div class="form-group col-md-12">
+                            <div class="col-md-4">
+                                <label>วันที่ทำรายการ</label>
+                            </div>
+                            <div class="col-md-8">
+                                <div class='input-group date' id='datetimepicker1'>
+                                    <input type='text' class="form-control export-input" readonly />
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar" style="margin-left: 10px;"></span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Right Form -->
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <div class="col-md-3">
+                                <label>ชื่อลูกค้า</label>
+                            </div>
+                            <div class="col-md-8">
+                                <input type="text" class="form-control export-input" id="exportSupplier" name="exportSupplier" placeholder="ชื่อคู่ค้า"  />
+                            </div>
+                            <div class="col-md-1"></div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table id="myTable" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-1 col-md-1" style="text-align: center; min-width: 40px; max-width: 40px">No.</th>
+                                    <th class="col-sm-2 col-md-2" style="min-width: 35px;">รหัสสินค้า</th>
+                                    <th class="col-sm-3 col-md-3" style="min-width: 75px;">ชื่อสินค้า</th>
+                                    <th class="col-sm-1 col-md-1" style="text-align: right; min-width: 35px ;">จำนวน</th>
+                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 35px ;">ราคาต่อหน่วย (฿)</th>
+                                    <th class="col-sm-1 col-md-1" style="text-align: right; min-width: 50px ;">รวม (฿)</th>
+                                    <th class="col-sm-1 col-md-1 text-center" style="min-width: 40px;"></th>
+                                    <th class="col-sm-1 col-md-1 text-center" style="min-width: 40px; width: 60px"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="rowMyTable" id='addrow0'></tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+               
+                <!-- <div class="col-xs-12 col-sm-6 col-md-6 selectShowCount">
+                    <div class="dataInfo" id="infoContrainer"></div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="dataPagination pull-right" id="paginationControl"></div>
+                </div>  -->              
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-group" style="padding-top: 0px;">
+                    <div class="col-xs-4 col-sm-6">
+                        <button type="button" class="btn pull-left btn-export" id="btnExportItem" data-toggle="modal" data-target="#modalExportProduct""><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> เพิ่มรายการ</button>
+                    </div>
+                    <!-- <div class="col-sm-6"></div> -->
+                    <div class="col-xs-8 col-sm-6">
+                        <div class="col-xs-6 col-sm-5">
+                            <label class="pull-right">มูลค่ารวม: </label>
+                        </div>
+                        <div class="col-xs-6 col-sm-4">
+                            <input type="text" class="form-control Export-input" id="txtTotalCost" name="txtTotalcost" placeholder="0 บาท" value="0 บาท" style="text-align: right;" readonly/>
+                        </div>
+                        <div class="col-sm-2"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-group" style="padding-top: 50px;">
+                    <div class="col-sm-5"></div>
+                    <div class="col-sm-2" id="divBtnExportItemSave">
+                        <button type="button" class="btn pull-left btn-exportSave" id="btnExportItemSave" onclick="exportItemSave()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> บันทึกการจ่ายสินค้าออก</button>
+                    </div>
+                    <div class="col-sm-5"></div>
+                </div>
+            </div>
+        </div>
+        
+    </div>
+
+    <!-- Modal ExportProduct-->
+    <div class="modal fade" id="modalExportProduct" tabindex="-1" role="dialog" aria-labelledby="modalLabelExportProduct" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelExportProduct">เพิ่มรายการจ่ายสินค้าออก</h4>
+                </div>
+                
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="exportProduct_Id">รหัสสินค้า</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="exportProduct_Id" name="exportProduct_Id" placeholder="รหัสสินค้า"/>
+                                <input type="hidden" class="form-control" id="exportProduct_IdCheck" name="exportProduct_IdCheck" placeholder="รหัสสินค้า"/>
+                            </div>
+                            <div class="col-xs-12 col-sm-2 addNewProduct">
+                                <a data-target="#modalAddProduct" data-toggle="modal" class="pull-right" id="" href="#modalAddProduct" onclick="addProduct()">เพิ่มสินค้าใหม่</a>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="exportProduct_Name" >ชื่อสินค้า</label>
+                            <div class="col-sm-7">
+                                <input type="text" class="form-control" id="exportProduct_Name" name="exportProduct_Name" placeholder="ชื่อสินค้า"/>
+                                <input type="hidden" class="form-control" id="exportProduct_NameCheck" name="exportProduct_NameCheck" placeholder="ชื่อสินค้า"/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="exportProduct_Cost" >ราคาต่อหน่วย</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-lg text-right" style="padding-left: 10px;padding-right: 10px;" id="exportProduct_Cost" name="exportProduct_Cost" placeholder="ราคาต่อหน่วย" tabindex="4" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="exportProduct_Amount" >จำนวน</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-lg text-right" id="exportProduct_Amount" name="exportProduct_Amount" placeholder="จำนวน" tabindex="4" value="1" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">ปิดหน้าต่าง</button>
+                    <button type="button" class="btn btn-primary" id="add_row" data-dismiss="modal">เพิ่มรายการ</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal AddProduct-->
+    <div class="modal fade" id="modalAddProduct" tabindex="-1" role="dialog" aria-labelledby="modalLabelAddProduct" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelAddProduct">เพิ่มสินค้าใหม่</h4>
+                </div>
+    
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" name="formAddProduct">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="inputProduct_Id">รหัสสินค้า</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputProduct_Id" placeholder="รหัสสินค้า" tabindex="1" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="inputProduct_Name" >ชื่อสินค้า</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="inputProduct_Name" placeholder="ชื่อสินค้า" tabindex="2"/>
+                            </div>
+                        </div>
+        
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="inputProduct_Cost" >ราคาซื้อ</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-lg text-right" id="inputProduct_Cost" placeholder="ราคาซื้อ" tabindex="4" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="inputProduct_Price" >ราคาขาย</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-lg text-right" id="inputProduct_Price" placeholder="ราคาขาย" tabindex="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+    
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="8">ปิดหน้าต่าง</button>
+                    <button type="button" class="btn btn-primary" tabindex="7" onclick="checkInputAddProduct()">บันทึก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Add Alert-->
+    <div class="modal fade" id="modalAddAlert" data-backdrop-limit="1" tabindex="-1" role="dialog" aria-labelledby="modalLabelAddAlert" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelAddAlert">ต้องการบันทึกหรือไม่</h4>
+                </div>
+    
+                <!-- Modal Body -->
+                <form class="form-horizontal" role="form" id="formAddAlert" method='POST' action="addProduct.php">
+                    <div class="modal-body">
+                        <div class="txtHeadModal">
+                            <label class="control-label">ยืนยันการบันทึกรายการ</label>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">รหัสสินค้า</label>
+                            <div class="col-sm-7">
+                                <input type="text" id="txtProduct_Id" name="txtProduct_Id" class="form-control" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">ชื่อสินค้า</label>
+                            <div class="col-sm-7">
+                                <input type="text" id="txtProduct_Name" name="txtProduct_Name" class="form-control" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">ราคาซื้อ</label>
+                            <div class="col-sm-7">
+                                <input type="hidden" id="txtProduct_Cost" name="txtProduct_Cost" class="form-control" readonly/>
+                                <input type="text" id="txtProduct_CostBaht" name="txtProduct_CostBaht" class="form-control" readonly/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-5 control-label">ราคาขาย</label>
+                            <div class="col-sm-7">
+                                <input type="hidden" id="txtProduct_Price" name="txtProduct_Price" class="form-control" readonly/>
+                                <input type="text" id="txtProduct_PriceBaht" name="txtProduct_PriceBaht" class="form-control" readonly/>
+                            </div>
+                        </div>
+                    
+                    </div>
+    
+                <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="" data-toggle="modal" data-target="#modalAddProduct">แก้ไขรายการ</button>
+                        <button type="submit" id="btnSubmitAddProduct" name="btnSubmitAddProduct" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Hidden Form Check Add Product_Id -->
+    <div id="divAddProduct_Id">
+        <form class="form-horizontal" role="form" id="formDivAddProduct_Id" method='POST' action="checkProduct_Id.php">
+            <input type="text" id="txtDivAddProduct_Id" name="txtDivAddProduct_Id" class="form-control" readonly/>
+            <input type="text" id="txtDivDuplicateAddProduct_Id" name="txtDivDuplicateAddProduct_Id" class="form-control" readonly/>
+            <button type="submit" id="btnDivAddProduct_Id" name="btnDivAddProduct_Id" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
+        </form>
+    </div>
+
+    <!-- Hidden Form Check Export Product_Id -->
+    <div id="divExportProduct_Id">
+        <form class="form-horizontal" role="form" id="formDivExportProduct_Id" method='POST' action="selectProduct_Id.php">
+            <input type="text" id="txtDivExportProduct_Id" name="txtDivExportProduct_Id" class="form-control" readonly/>
+            <button type="submit" id="btnDivExportProduct_Id" name="btnDivExportProduct_Id" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
+        </form>
+    </div>
+
+    <!-- Hidden Form Check Export Product_Name -->
+    <div id="divExportProduct_Name">
+        <form class="form-horizontal" role="form" id="formDivExportProduct_Name" method='POST' action="selectProduct_Name.php">
+            <input type="text" id="txtDivExportProduct_Name" name="txtDivExportProduct_Name" class="form-control" readonly/>
+            <button type="submit" id="btnDivExportProduct_Name" name="btnDivExportProduct_Name" class="btn btn-primary" tabindex="" data-dismiss="modal">ยืนยัน</button>
+        </form>
+    </div>
+
+    <!-- Modal Delete Row Alert-->
+    <div class="modal fade" id="modalDeleteRowAlert" data-backdrop-limit="1" tabindex="-1" role="dialog" aria-labelledby="modalLabelDeleteRowAlert" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelDeleteRowAlert">ต้องการลบหรือไม่</h4>
+                </div>
+                
+                <!-- Modal Body -->
+                <form class="form-horizontal" role="form">
+                    <div class="modal-body">
+                        <div class="txtDeleteRowHeadModal">
+                            <label class="control-label">ยืนยันการลบ</label>
+                        </div>
+                        
+                        <input type="hidden" class="form-control" id="txtBTN" name="txtBTN" placeholder="BTN" tabindex="" readonly />
+                        
+                    </div>
+                
+                <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="">ยกเลิก</button>
+                        <button type="submit" id="btnSubmitDeleteRowProduct" name="btnSubmitDeleteRowProduct" class="btn btn-primary" data-dismiss="modal" tabindex="">ยืนยัน</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal EditProduct-->
+    <div class="modal fade" id="modalEditProduct" tabindex="-1" role="dialog" aria-labelledby="modalLabelEditProduct" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelEditProduct">แก้ไขรายการสินค้า</h4>
+                </div>
+                
+                <!-- Modal Body -->
+                <div class="modal-body">
+                    <form class="form-horizontal" role="form" name="formEditProduct">
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="editProduct_Id">รหัสสินค้า</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="editProduct_Id" placeholder="รหัสสินค้า" tabindex="1" />
+                                <input type="hidden" class="form-control" id="editNo" placeholder="No." tabindex="1" />
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="editProduct_Name" >ชื่อสินค้า</label>
+                            <div class="col-sm-8">
+                                <input type="text" class="form-control" id="editProduct_Name" placeholder="ชื่อสินค้า" tabindex="2"/>
+                            </div>
+                        </div>
+                    
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="editProduct_Cost" >ราคาต่อหน่วย</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-lg text-right" id="editProduct_Cost" placeholder="ราคาซื้อ" tabindex="4" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-3 control-label" for="editProduct_Amount" >จำนวน</label>
+                            <div class="col-sm-6">
+                                <input type="text" class="form-control input-lg text-right" id="editProduct_Amount" placeholder="ราคาขาย" tabindex="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
+                            </div>
+                        </div>
+
+                    </form>
+                </div>
+                
+                <!-- Modal Footer -->
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="8">ปิดหน้าต่าง</button>
+                    <button type="button" class="btn btn-primary" tabindex="7" data-dismiss="modal" onclick="editRowSave()">บันทึก</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Export Product Save Alert-->
+    <div class="modal fade" id="modalExportProductSave" data-backdrop-limit="1" tabindex="-1" role="dialog" aria-labelledby="modalLabelExportProductSave" aria-hidden="true" data-keyboard="false" data-backdrop="static">
+        <div class="modal-dialog modal-sm">
+            <div class="modal-content">
+                <!-- Modal Header -->
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">
+                        <span aria-hidden="true">&times;</span>
+                        <span class="sr-only">Close</span>
+                    </button>
+                    <h4 class="modal-title" id="modalLabelExportProductSave">ต้องการบันทึกหรือไม่</h4>
+                </div>
+                
+                <!-- Modal Body -->
+                <form class="form-horizontal" role="form">
+                    <div class="modal-body">
+                        <div class="txtDeleteRowHeadModal">
+                            <label class="control-label">ยืนยันการบันทึกการจ่ายสินค้าออก</label>
+                        </div>
+                        
+                        <input type="hidden" class="form-control" id="txtBTN" name="txtBTN" placeholder="BTN" tabindex="" readonly />
+                        
+                    </div>
+                
+                <!-- Modal Footer -->
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" data-dismiss="modal" tabindex="">ยกเลิก</button>
+                        <button type="submit" id="btnSubmitExportProductSave" name="btnSubmitExportProductSave" class="btn btn-primary" data-dismiss="modal" tabindex="">ยืนยัน</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
 
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="js/jquery-1.12.4.min.js"></script>
     <!-- Include all compiled plugins (below), or include individual files as needed -->
     <script src="js/bootstrap.min.js"></script>
+
+    <!-- JQuery UI -->
+    <script src="js/jquery-ui.js"></script>
 
     <!-- Datatables -->
     <script src="js/jquery.dataTables.min.js"></script>
@@ -59,6 +513,18 @@
     http://www.virtuosoft.eu/code/bootstrap-touchspin/ -->
     <script src="js/jquery.bootstrap-touchspin.js"></script>
 
+    <!-- Bootstrap Notify V. 3.1.3
+    http://bootstrap-notify.remabledesigns.com/ -->
+    <script src="js/bootstrap-notify.js"></script>
+
+    <!-- Bootstrap Datetimepicker 
+    http://eonasdan.github.io/bootstrap-datetimepicker/ -->
+    <!-- Moment.js Declare Before datetimpicker.js -->
+    <script src="js/moment.js"></script>
+    <script src="js/bootstrap-datetimepicker.min.js"></script>
+    <script src="js/th.js"></script>
+    
+
     <!-- Include HTML W3-->
     <script src="js/w3data.js"></script>
     <script>
@@ -68,5 +534,573 @@
     <!-- My Script -->
     <script src="js/activeMenu.js"></script>
 
+        <!-- Click Button Add Item -->
+        <script type="text/javascript">
+            $("#btnExportItem").click(function() {
+                document.getElementById("exportProduct_Id").value = "";
+                document.getElementById("exportProduct_Name").value = "";
+                document.getElementById("exportProduct_Cost").value = "";
+                document.getElementById("exportProduct_Amount").value = 1;
+            });
+        </script>
 
+        <!-- Product_Id List Show -->
+        <script>
+            var showLimit = 5;
+            $( function() {
+                $("#exportProduct_Id").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                            url: "product_IdData.php",
+                            dataType: "json",
+                            data:{
+                                term: request.term
+                            },
+                            success: function(data) {
+                                response(data.slice(0, showLimit));  // slice(0, show limit)
+                            }
+                        });
+                    },
+                    minLength: 0,
+                    select: function(event, ui) {
+                        $("#exportProduct_IdCheck").val(ui.item.label);
+                        if (ui.item.label.match("ไม่พบรหัสสินค้า")) {
+                            checkPID();
+                            document.getElementById("exportProduct_Name").value = "";
+                            document.getElementById("exportProduct_Cost").value = "";
+                        }else {
+                            $("#exportProduct_Name").val(ui.item.Product_Name);
+                            $("#exportProduct_Cost").val(ui.item.Product_Cost);
+                            setTimeout(function(){ 
+                                $('#exportProduct_Id').blur();
+                            }, 100);
+                        }
+                    },
+                    open: function() {
+                        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                    },
+                    close: function() {
+                        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                    }
+                }).bind('focus', function(){ $(this).autocomplete("search"); } );
+            });
+
+            $("#exportProduct_Id").blur(function() {
+                //Product_Id is null
+                if(document.getElementById("exportProduct_Id").value == ""){
+                    document.getElementById("exportProduct_Name").value = "";
+                    document.getElementById("exportProduct_Cost").value = "";
+                }
+                
+                //Product_Id have value set 
+                else {
+                    document.getElementById("txtDivExportProduct_Id").value = document.getElementById("exportProduct_Id").value;
+                    $("#btnDivExportProduct_Id").trigger('click');
+                }
+            });
+
+            function checkPID(){
+                setTimeout(function(){ 
+                    if(document.getElementById("exportProduct_IdCheck").value == document.getElementById("exportProduct_Id").value){
+                            document.getElementById("exportProduct_Id").value = "";
+                    } 
+                }, 100);
+            }
+        </script>
+
+        <!-- Hidden Form ExportProduct Product_Id Search-->
+        <script type="text/javascript">
+            $(document).ready(function() { 
+                document.getElementById('divExportProduct_Id').style.visibility = 'hidden';
+                document.getElementById("divExportProduct_Id").style.display = "none";
+            });
+
+            $("#btnDivExportProduct_Id").click( function() {
+                var data = $("#formDivExportProduct_Id :input").serializeArray();
+
+                $.post( $("#formDivExportProduct_Id").attr("action"),
+                    data, 
+                    function(info){
+                        if (info != "no") {
+                            var arrayProduct = info.split(",");
+                            // arrayProduct => [0] = Product_Name, [1] = Product_Cost 
+                            document.getElementById("exportProduct_Name").value = arrayProduct[0];
+                            document.getElementById("exportProduct_Cost").value = arrayProduct[1];
+                        } else{
+                            document.getElementById("exportProduct_Name").value = "";
+                            document.getElementById("exportProduct_Cost").value = "";
+                            $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: '<b>ไม่พบรหัสสินค้านี้</b>',
+                            message: '<br>โปรดแก้ไขรหัสสินค้าหรือทำการเพิ่มสินค้าใหม่'
+                            },{
+                                type: 'warning',
+                                delay: 3000,
+                                z_index: 2062
+                            });
+                        }
+                    }  
+                );
+
+                $("#formDivExportProduct_Id").submit( function() {
+                    return false;
+                });
+            });
+        </script>
+
+        <!-- Product_Name List Show -->
+        <script>
+            $( function() {
+                $("#exportProduct_Name").autocomplete({
+                    source: function(request, response) {
+                        $.ajax({
+                            url: "product_NameData.php",
+                            dataType: "json",
+                            data:{
+                                term: request.term
+                            },
+                            success: function(data) {
+                                response(data.slice(0, showLimit));  // slice(0, show limit)
+                            }
+                        });
+                    },
+                    minLength: 0,
+                    select: function(event, ui) {
+                        $("#exportProduct_NameCheck").val(ui.item.label);
+                        if (ui.item.label.match("ไม่พบชื่อสินค้า")) {
+                            checkPName();
+                            document.getElementById("exportProduct_Id").value = "";
+                            document.getElementById("exportProduct_Cost").value = "";
+                        }else {
+                            $("#exportProduct_Id").val(ui.item.Product_Id);
+                            $("#exportProduct_Cost").val(ui.item.Product_Cost);
+                            $('#exportProduct_Name').blur();
+                        }
+                    },
+                    open: function() {
+                        $( this ).removeClass( "ui-corner-all" ).addClass( "ui-corner-top" );
+                    },
+                    close: function() {
+                        $( this ).removeClass( "ui-corner-top" ).addClass( "ui-corner-all" );
+                    }
+                }).bind('focus', function(){ $(this).autocomplete("search"); } );
+            });
+
+            $("#exportProduct_Name").blur(function() {
+                //Product_Id is null
+                if(document.getElementById("exportProduct_Name").value == ""){
+                    document.getElementById("exportProduct_Id").value = "";
+                    document.getElementById("exportProduct_Cost").value = "";
+                }
+                
+                //Product_Id have value set 
+                else {
+                    document.getElementById("txtDivExportProduct_Name").value = document.getElementById("exportProduct_Name").value;
+                    $("#btnDivExportProduct_Name").trigger('click');
+                }
+            });
+
+            function checkPName(){
+                setTimeout(function(){ 
+                    if(document.getElementById("exportProduct_NameCheck").value == document.getElementById("exportProduct_Name").value){
+                            document.getElementById("exportProduct_Name").value = "";
+                    } 
+                }, 100);
+            }
+        </script>
+
+        <!-- Hidden Form ExportProduct Product_Name Search-->
+        <script type="text/javascript">
+            $(document).ready(function() { 
+                document.getElementById('divExportProduct_Name').style.visibility = 'hidden';
+                document.getElementById("divExportProduct_Name").style.display = "none";
+            });
+
+            $("#btnDivExportProduct_Name").click( function() {
+                var data = $("#formDivExportProduct_Name :input").serializeArray();
+
+                $.post( $("#formDivExportProduct_Name").attr("action"),
+                    data, 
+                    function(info){
+                        if (info != "no") {
+                            var arrayProduct = info.split(",");
+                            // arrayProduct => [0] = Product_Id, [1] = Product_Cost 
+                            document.getElementById("exportProduct_Id").value = arrayProduct[0];
+                            document.getElementById("exportProduct_Cost").value = arrayProduct[1];
+                        } else{
+                            document.getElementById("exportProduct_Id").value = "";
+                            document.getElementById("exportProduct_Cost").value = "";
+                            $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: '<b>ไม่พบชื่อสินค้านี้</b>',
+                            message: '<br>โปรดแก้ไขชื่อสินค้าหรือทำการเพิ่มสินค้าใหม่'
+                            },{
+                                type: 'warning',
+                                delay: 3000,
+                                z_index: 2062
+                            });
+                        }
+                    }  
+                );
+
+                $("#formDivExportProduct_Name").submit( function() {
+                    return false;
+                });
+            });
+        </script>
+
+        <!-- Modal ExportProduct -->
+        <script type="text/javascript">
+            $('#modalExportProduct').on('shown.bs.modal', function() {
+                //$('#exportProduct_Id').focus();
+
+                $("input[id='exportProduct_Cost']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 0.25,
+                    forcestepdivisibility: 'none',
+                    decimals: 2,
+                    boostat: 5,
+                    maxboostedstep: 10,
+                    postfix: 'บาท'
+                });
+
+                $("input[id='exportProduct_Amount']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 1,
+                    forcestepdivisibility: 'none',
+                    decimals: 0,
+                    boostat: 5,
+                    maxboostedstep: 10
+                });
+
+                
+            })
+        </script>
+
+        <!-- Modal AddProduct -->
+        <script type="text/javascript">
+            $('#modalAddProduct').on('shown.bs.modal', function() {
+                $('#modalExportProduct').modal('hide');
+                $('#inputProduct_Id').focus();
+
+                $("input[id='inputProduct_Cost']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 0.25,
+                    forcestepdivisibility: 'none',
+                    decimals: 2,
+                    boostat: 5,
+                    maxboostedstep: 10,
+                    postfix: 'บาท'
+                });
+
+                $("input[id='inputProduct_Price']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 0.25,
+                    forcestepdivisibility: 'none',
+                    decimals: 2,
+                    boostat: 5,
+                    maxboostedstep: 10,
+                    postfix: 'บาท'
+                });
+            })
+        </script>
+
+        <!-- Modal AddAlert -->
+        <script type="text/javascript">
+            $('#modalAddAlert').on('shown.bs.modal', function() {
+                document.getElementById("txtProduct_Id").value = $('#inputProduct_Id').val();
+                document.getElementById("txtProduct_Name").value = $('#inputProduct_Name').val();
+                document.getElementById("txtProduct_Cost").value = $('#inputProduct_Cost').val();
+                document.getElementById("txtProduct_CostBaht").value = $('#inputProduct_Cost').val() + " บาท";
+                document.getElementById("txtProduct_Price").value = $('#inputProduct_Price').val();
+                document.getElementById("txtProduct_PriceBaht").value = $('#inputProduct_Price').val() + " บาท";
+            })
+        </script>
+
+        <!-- Add Product -->
+        <script type="text/javascript">
+            $("#btnSubmitAddProduct").click( function() {
+                var data = $("#formAddAlert :input").serializeArray();
+
+                $.post( $("#formAddAlert").attr("action"),
+                    data, 
+                    function(){ 
+                        $.notify({
+                            icon: 'glyphicon glyphicon-ok-sign',
+                            title: '<b>ดำเนินการเสร็จสิ้น</b>',
+                            message: '<br>เพิ่มรายการสินค้าเรียบร้อย'
+                        },{
+                            type: 'success',
+                            delay: 3000,
+                            z_index: 2062
+                        });
+                        document.getElementById("exportProduct_Id").value = document.getElementById("inputProduct_Id").value;
+                        document.getElementById("exportProduct_Name").value = document.getElementById("inputProduct_Name").value;
+                        document.getElementById("exportProduct_Cost").value = document.getElementById("inputProduct_Cost").value;
+                        $('#modalExportProduct').modal('show');
+                    }  
+                );
+            });
+
+            $("#formAddAlert").submit( function() {
+                return false;
+            });
+            function addProduct() {   
+                //
+                document.getElementById("inputProduct_Id").value = "";
+                document.getElementById("inputProduct_Name").value = "";  
+                document.getElementById("inputProduct_Price").value = "";  
+                document.getElementById("inputProduct_Cost").value = "";          
+            }
+            function checkInputAddProduct(){
+                var textCheckInputAddproduct = "";
+                if(document.getElementById("inputProduct_Id").value == "") {
+                    textCheckInputAddproduct += "<br>";
+                    textCheckInputAddproduct += "รหัสสินค้า";
+                }
+                if(document.getElementById("inputProduct_Name").value == "") {
+                    textCheckInputAddproduct += "<br>";
+                    textCheckInputAddproduct += "ชื่อสินค้า";
+                }
+                if(document.getElementById("inputProduct_Cost").value == "") {
+                    textCheckInputAddproduct += "<br>";
+                    textCheckInputAddproduct += "ราคาซื้อ";
+                }
+                if(document.getElementById("inputProduct_Price").value == "") {
+                    textCheckInputAddproduct += "<br>";
+                    textCheckInputAddproduct += "ราคาขาย";
+                }
+
+                if(document.getElementById("inputProduct_Id").value == "" || document.getElementById("inputProduct_Name").value == "" || document.getElementById("inputProduct_Cost").value == "" || document.getElementById("inputProduct_Price").value == "") {
+                    $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: '<b>กรุณากรอกข้อมูลให้ครบถ้วน</b>',
+                            message: textCheckInputAddproduct
+                        },{
+                            type: 'warning',
+                            delay: 3000,
+                            z_index: 2062
+                        }
+                            
+                        );
+                }else {
+                    document.getElementById("txtDivAddProduct_Id").value = $('#inputProduct_Id').val();
+                    $("#btnDivAddProduct_Id").trigger('click');
+                }
+            }
+            function checkAddProduct_Id() {
+                if ($('#txtDivAddProduct_Id').val() == $('#txtDivDuplicateAddProduct_Id').val()) {
+                    $.notify({
+                        icon: 'glyphicon glyphicon-alert',
+                        title: '<b> รหัสสินค้านี้มีอยู่แล้ว</b>',
+                        message: '<br>โปรดแก้ไข'
+                    },{
+                        type: 'danger',
+                        delay: 3000,
+                        z_index: 2062
+                    }
+                    );
+                }else {
+                    $('#modalAddProduct').modal('hide');
+                    $('#modalAddAlert').modal('show');
+                }
+            }
+        </script>
+
+        <!-- Hidden Form AddProduct Check Product_Id -->
+        <script type="text/javascript">
+            $(document).ready(function() { 
+                document.getElementById('divAddProduct_Id').style.visibility = 'hidden';
+                document.getElementById("divAddProduct_Id").style.display = "none";
+            });
+
+            $("#btnDivAddProduct_Id").click( function() {
+                var data = $("#formDivAddProduct_Id :input").serializeArray();
+
+                $.post( $("#formDivAddProduct_Id").attr("action"),
+                    data, 
+                    function(info){
+                        if (info == $('#txtDivAddProduct_Id').val()) {
+                            document.getElementById("txtDivDuplicateAddProduct_Id").value = info;
+                        }
+                        checkAddProduct_Id();
+                    }  
+                );
+
+                $("#formDivAddProduct_Id").submit( function() {
+                    return false;
+                });
+            });
+        </script>
+
+        <!-- Delete Row of Table -->
+        <script type="text/javascript">
+            //Start Save Buttun not Show
+            // $(document).ready(function() { 
+            //     document.getElementById("divBtnExportItemSave").style.visibility = "hidden";
+            //     document.getElementById("divBtnExportItemSave").style.display = "none";
+            // });
+
+            window.no = 0;
+            window.rowId;
+
+            //Alert Delete Any Row
+            var row;
+            function deleteRowAlert(btn) {
+                $('#modalDeleteRowAlert').modal('show');
+                row = btn.parentNode.parentNode;
+            }
+
+            $("#btnSubmitDeleteRowProduct").click( function() {
+                deleteRow();
+                calculateTotalCost();
+            });
+
+            //Delete Any Row
+            //function deleteRow(btn) {
+            function deleteRow() {
+                //row = btn.parentNode.parentNode;
+                row.parentNode.removeChild(row);
+                no--;
+                renumberRows();
+                //Button Save will Show when Have Data in Table
+                if (no == 0) {
+                    // document.getElementById("divBtnExportItemSave").style.visibility = "hidden";
+                    // document.getElementById("divBtnExportItemSave").style.display = "none";
+                }
+            }
+
+            function renumberRows() {
+                $('#myTable tr').each(function(index, el){
+                    $(this).children('td').first().text(index++);
+                });
+            }
+
+            $(document).ready(function(){
+                // i is No. of <tr> add
+                rowId=0;
+                //Add Row Data From Modal Export Summit 
+                $("#add_row").click(function(){
+                    var productID = document.getElementById('exportProduct_Id').value;
+                    var productName = document.getElementById('exportProduct_Name').value;
+                    var productCost = document.getElementById('exportProduct_Cost').value;
+                    var productAmount = document.getElementById('exportProduct_Amount').value;
+                    productTotalCost = parseFloat(productCost) * parseFloat(productAmount);
+
+                    $('#addrow'+rowId).html("<td class='exportNo' style='text-align: center'>" +(no+1)+ "</td> <td class='exportProductId' id='PId"+rowId+"'>" +productID+ "</td> <td class='exportProductName' id='PName"+rowId+"'>" +productName+ "</td> <td class='exportProductAmount' style='text-align: right' id='PAmount"+rowId+"'>" +productAmount+ "</td> <td class='exportProductCost' style='text-align: right' id='PCost"+rowId+"'>" +productCost+ "</td> <td class='exportProductTotalCost' style='text-align: right' id='PTotalCost"+rowId+"' name:'PTotalCost[]'>" +productTotalCost.toFixed(2)+ "</td>  <td class='' style='text-align: center'><input type='button' value='แก้ไข' id='' class='btn-edit' onclick='editRow("+rowId+")' /></td> <td class='' style='text-align: center'><input type='button' value='ลบ' id='' class='btn-delete' onclick='deleteRowAlert(this)'/></td>");
+
+                    $('#myTable').append('<tr id="addrow'+(rowId+1)+'"></tr>');
+
+                    rowId++;
+                    no++;
+                    calculateTotalCost();
+                });
+     
+                $("#delete_row").click(function(){
+                    if(rowId>0){
+                        rowId--;
+                    }
+                });
+            });
+        </script>
+
+        <!-- Bootstrap Datetimepicker -->
+        <script type="text/javascript">
+            $(function () {
+                $('#datetimepicker1').datetimepicker({
+                    locale: 'th',
+                    format: 'DD-MM-YYYY',
+                    maxDate: $.now(),
+                    ignoreReadonly: true
+                });
+            });
+        </script>
+
+        <!-- Modal Edit Product -->
+        <script type="text/javascript">
+            $('#modalEditProduct').on('shown.bs.modal', function() {
+                $("input[id='editProduct_Cost']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 0.25,
+                    forcestepdivisibility: 'none',
+                    decimals: 2,
+                    boostat: 5,
+                    maxboostedstep: 10,
+                    postfix: 'บาท'
+                });
+
+                $("input[id='editProduct_Amount']").TouchSpin({
+                    min: 0,
+                    max: 10000,
+                    step: 1,
+                    forcestepdivisibility: 'none',
+                    decimals: 0,
+                    boostat: 5,
+                    maxboostedstep: 10
+                });
+            })
+        </script>
+
+        <!-- Edit Row Data -->
+        <script type="text/javascript">
+            function editRow(id){
+                $('#modalEditProduct').modal('show');
+                document.getElementById('editNo').value = id;
+                document.getElementById('editProduct_Id').value = document.getElementById("PId"+id).innerHTML;
+                document.getElementById('editProduct_Name').value = document.getElementById("PName"+id).innerHTML;
+                document.getElementById('editProduct_Cost').value = document.getElementById("PCost"+id).innerHTML;
+                document.getElementById('editProduct_Amount').value = document.getElementById("PAmount"+id).innerHTML;
+            }
+
+            function editRowSave() {
+                id = document.getElementById('editNo').value;
+                document.getElementById("PId"+id).innerHTML = document.getElementById('editProduct_Id').value;
+                document.getElementById("PName"+id).innerHTML = document.getElementById('editProduct_Name').value;
+                document.getElementById("PCost"+id).innerHTML = document.getElementById('editProduct_Cost').value;
+                document.getElementById("PAmount"+id).innerHTML = document.getElementById('editProduct_Amount').value;
+                document.getElementById("PTotalCost"+id).innerHTML = (parseFloat(document.getElementById('editProduct_Amount').value) * parseFloat(document.getElementById('editProduct_Cost').value)).toFixed(2);
+                calculateTotalCost();
+            }
+        </script>
+
+        <!-- Calculate when Add Edit Delete Item-->
+        <script type="text/javascript">
+            function calculateTotalCost() {
+                var sum = 0;
+                for (i = 0; i <= rowId; i++) { 
+                    if ($("#PTotalCost" + i).length > 0){
+                        sum += parseFloat(document.getElementById("PTotalCost"+i).innerHTML);
+                    }
+                }
+                var text = sum + " บาท";
+                document.getElementById("txtTotalCost").value = text;
+            }
+        </script>
+
+        <!-- Save Export Product -->
+        <script type="text/javascript">
+            function exportItemSave(){
+                //no=0 when Table not have Product
+                if(no == 0){
+                    $.notify({
+                            icon: 'glyphicon glyphicon-warning-sign',
+                            title: '<b>ไม่มีรายการจ่ายสินค้าออก</b>',
+                            message: '<br>โปรดเพิ่มรายการจ่ายสินค้าออก'
+                            },{
+                                type: 'warning',
+                                delay: 3000,
+                                z_index: 2062
+                            });
+                }else{
+                    $('#modalExportProductSave').modal('show');
+                }
+            }
+        </script>
+
+</body>
 </html>

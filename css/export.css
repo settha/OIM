@@ -1,0 +1,166 @@
+body {
+	font-family: 'Itim', cursive;
+	font-size: 18px;
+	padding-top:50px;
+}
+
+input[type="text"]
+{
+    font-size:18px;
+}
+
+.labelShow{
+	padding-left: 0px;
+	margin-top: 5px;
+}
+
+.selectShow{
+	padding-left: 0px;
+}
+
+.selectShowText{
+	padding-left: 5px;
+	padding-right: 5px;
+	text-align: right;
+}
+
+.selectShowCount{
+	margin-top: 10px;
+	padding-left: 0px;
+}
+
+.pagination {
+	margin-top: 0px;
+	margin-bottom: 0px;
+}
+
+.form-group .form-input {
+	margin-top: -8px;
+	padding: 10px 10px 10px 10px;
+	border-radius: 10px;
+	border: 1px solid #DEDEDE;
+}
+
+.addProduct {
+	padding-top: 15px;
+}
+
+.text-head {
+	font-size: 30px;
+}
+
+.topform {
+	padding: 15px 15px 15px 15px;
+}
+
+.form {
+	padding: 0px 15px 15px 15px;
+}
+
+.form-group {
+	padding-top: 15px;
+	padding-bottom: 0px;
+	margin-bottom: 0px;
+}
+
+.form-export {
+	padding: 10px 15px 10px;
+	margin: 0;
+	border: 1px solid #DEDEDE;
+	background-color: #edf0f7;
+}
+
+.form-export .export-input {
+	margin: 0px 0px 0px 10px;
+	padding: 10px 10px 10px 10px;
+	border-radius: 10px;
+	border: 1px solid #DEDEDE;
+}
+
+.form-search .search-logo {
+	padding-top: 
+	font-size: 20px;	
+}
+
+.btn-export {
+	margin: 0;
+  	padding: 10px 10px 10px 10px;
+  	background-color: #6e88c4;
+  	color: white;
+  	font-size: 16px;
+}
+
+.btn-edit, .btn-delete {
+	margin: 0;
+  	padding: 2px 10px 2px 10px;
+  	background-color: #6e88c4;
+  	color: white;
+  	font-size: 16px;
+  	width: 60px;
+}
+
+.btn-exportSave {
+	margin: 0;
+  	padding: 10px 10px 10px 10px;
+  	background-color: #00cc44;
+  	color: white;
+  	font-size: 16px;
+}
+
+.txtHeadModal {
+	padding-left: : 10px;
+	padding-bottom: 15px; 
+	font-size: 20px;
+}
+
+.addNewProduct {
+	padding-top: 0px;
+	padding-left: 5px;
+	padding-right: 10px;
+}
+
+th {
+	color: #2c406d;
+	background-color: #edf0f8;
+} 
+
+.ui-autocomplete {
+	z-index: 1500;
+}
+
+.ui-menu {
+	background: #edf0f8;
+}
+
+/*ul.ui-menu
+{
+    list-style-type: none;
+}
+
+ul.ui-menu li
+{
+    padding: 5px;
+    margin: 3px;
+    background-color: red;
+    border: 1px solid black;
+}
+
+ul.ui-menu li:hover
+{
+    background-color: lime;
+}*/
+
+/*li ul
+{
+    display: none;
+}
+
+li.ui-menu-item:hover ul
+{
+    display: block;
+}
+
+li ul li.ui-menu-item:hover
+{
+    background-color: red;
+}*/

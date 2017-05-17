@@ -1,8 +1,15 @@
 <?php
 	include_once('connectDB.php');
 
+	if (isset($_POST['txtDivImportProduct_Id'])){
+		$Product_Id = $_POST['txtDivImportProduct_Id'];
+	}
+	if (isset($_POST['txtDivExportProduct_Id'])) {
+		$Product_Id = $_POST['txtDivExportProduct_Id'];
+	}
+
 	//$pID = $_POST['txtpID'];
-	$Product_Id = $_POST['txtDivImportProduct_Id'];
+	//$Product_Id = $_POST['txtDivImportProduct_Id'];
 	//$Product_Name = $_POST['txtProduct_Name'];
 	//$Product_Cost = $_POST['txtProduct_Cost'];
 	//$Product_Price = $_POST['txtProduct_Price'];
