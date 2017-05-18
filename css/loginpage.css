@@ -16,7 +16,8 @@ body {
 }*/
 
 .bgcolor {
-	background-color: #7FFFD4;
+	background-color: #3b5998;
+	/*#7FFFD4*/
 }
 
 .row {
@@ -24,7 +25,8 @@ body {
 }
 
 .form {
-	background-color: #F0F8FF;
+	background-color: #dae1f1;
+	/*#F0F8FF*/
 }
 
 .logo-block {

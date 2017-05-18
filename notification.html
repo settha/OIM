@@ -30,6 +30,7 @@
     <!-- My CSS -->
     <link href="css/nav.css" rel="stylesheet">
     <link href="css/product.css" rel="stylesheet">
+    <link href="css/notification.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -44,9 +45,52 @@
     <div class="container">
         <div class="row">
             <div class="form">
-                <div class="col-sm-6 col-md-6 col-lg-6 pull-left">
-                    <h1 class="text-head">การแจ้งเตือน</h1>
+                <div class="form-group">
+                    <div class="col-sm-6 col-md-6 col-lg-6 pull-left">
+                        <h1 class="text-head">การแจ้งเตือน</h1>
+                    </div>
+                    <div class="form-group col-sm-6 col-md-6 col-lg-6 pull-right">
+                        <div class="col-xs-7 col-sm-5 col-md-5 col-lg-5">
+                            <label>แจ้งเตือนเมื่อสินค้าคงเหลือต่ำกว่า</label>
+                        </div>
+                        <div class="col-xs-5 col-sm-4 col-md-4 col-lg-4 selectShow">
+                            <input type="text" class="form-control text-right" id="inputNotification" value="10" placeholder="จำนวนสินค้า" tabindex="5" onkeypress='return event.charCode >= 48 && event.charCode <= 57 || event.charCode == 46'/>
+                        </div>
+                        <div class="col-sm-3 col-md-3 col-lg-3 hidden-xs" id="divBtnNotificationSave">
+                            <button type="button" class="btn pull-left btn-notificationSave" id="btnNotificationSave" onclick="notificationSave()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> บันทึก</button>
+                        </div>
+                        <div class="col-xs-2 hidden-sm hidden-md hidden-lg" style="padding-top: 10px">
+                            <button type="button" class="btn pull-left btn-notificationSave" id="btnNotificationSave" onclick="notificationSave()"><span class="glyphicon glyphicon-floppy-disk" aria-hidden="true"></span> บันทึก</button>
+                        </div>
+                    </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <div class="form">
+                <div class="form-group">
+                    <div class="table-responsive">
+                        <table id="mytable" class="table table-striped table-bordered table-hover">
+                            <thead>
+                                <tr>
+                                    <th class="col-sm-1 col-md-1" style="text-align: center;">No.</th>
+                                    <th class="col-sm-2 col-md-2" style="min-width: 35px;">รหัสสินค้า</th>
+                                    <th class="col-sm-3 col-md-3" style="min-width: 75px;">ชื่อสินค้า</th>
+                                    <th class="col-sm-2 col-md-2" style="text-align: right; min-width: 50px ;">คงเหลือ</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                        </table>
+                    </div>
+                </div>
+               
+                <div class="col-xs-12 col-sm-6 col-md-6 selectShowCount">
+                    <div class="dataInfo" id="infoContrainer"></div>
+                </div>
+                <div class="col-xs-12 col-sm-6 col-md-6">
+                    <div class="dataPagination pull-right" id="paginationControl"></div>
+                </div>               
             </div>
         </div>
 
@@ -81,6 +125,20 @@
 
     <!-- My Script -->
     <script src="js/activeMenu.js"></script>
+
+        <!-- Touch Spin -->
+        <!-- myLengthChange -->
+        <script type="text/javascript">
+            $("input[id='inputNotification']").TouchSpin({
+                min: 1,
+                max: 100,
+                step: 1,
+                forcestepdivisibility: 'none',
+                decimals: 0,
+                boostat: 5,
+                maxboostedstep: 10
+            });
+        </script>
 
 </body>
 </html>
